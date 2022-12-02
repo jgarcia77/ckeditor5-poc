@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "ckeditor5-custom-build": {
+      "signature": "a9b3705947dd2331fd2115951fe8408a",
+      "file": true
+    }
+  }
+}
