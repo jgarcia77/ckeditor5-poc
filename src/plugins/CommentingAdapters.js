@@ -1,7 +1,8 @@
 import { ContextPlugin } from 'ckeditor5-custom-build/build/ckeditor';
 
-export default class CommentingContext extends ContextPlugin {
+class CommentsAdapter extends ContextPlugin {
     init() {
+        console.log('I am the', this.Name);
         const users = this.context.plugins.get( 'Users' );
 
         users.addUser( {
@@ -33,5 +34,11 @@ export default class CommentingContext extends ContextPlugin {
                 return Promise.resolve();
             }
         };
+    }
+};
+
+export class InlineCommentsAdapter extends CommentsAdapter {
+    get Name() {
+        return 'InlineCommentsAdapter'
     }
 }

@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "ckeditor5-custom-build": {
-      "signature": "5f9209bf215ac5526578384b0c167b67",
+      "signature": "5b8afb96953ad5aea7eb75befdd28ec6",
       "file": true
     }
   }

@@ -24,7 +24,7 @@ main {
   width: 50%;
 }
 
-#sidebar {
+.right-panel {
   width: 50%;
   background-color: gainsboro;
 }
