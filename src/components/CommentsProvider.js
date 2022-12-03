@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { Context } from 'ckeditor5-custom-build/build/ckeditor';
-import CommentingContext from '../plugins/CommentingContext';
+// import CommentingContext from '../plugins/CommentingContext';
 
 console.log('Context', Context.builtinPlugins);
 
-Context.builtinPlugins.push(CommentingContext);
+// Context.builtinPlugins = [...Context.builtinPlugins, CommentingContext];
 
 const CommentsContext = React.createContext({});
 
@@ -25,9 +25,6 @@ const CommentsProvider = ({ children }) => {
                 isLayoutReady={isMounted}
                 config={{
                     licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
-                    extraPlugins: [
-                        CommentingContext
-                    ],
                     sidebar: {
                         container: sideBarRef.current
                     },}}
