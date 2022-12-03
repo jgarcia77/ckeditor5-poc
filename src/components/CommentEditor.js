@@ -1,17 +1,26 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { Editor } from 'ckeditor5-custom-build/build/ckeditor';
+import { ClassicEditor } from 'ckeditor5-custom-build/build/ckeditor';
+import CKE from 'ckeditor5-custom-build/build/ckeditor';
+// import UsersInit from '../plugins/UsersInit';
 
-console.log('Editornpm ', Editor);
+console.log('CKE', CKE);
 
 const CommentEditor = () => {
     return (
-        <CKEditor editor={Editor} config={{
+        <CKEditor editor={ClassicEditor} config={{
+            // extraPlugins1: [
+            //     UsersInit
+            // ],
             toolbar: {
-                items: []
+                items: ['comment']
             }
         }}
             onReady={ editor => {
-              editor.plugins.get( 'AnnotationsUIs' ).switchTo( 'wideSidebar' );
+                editor.plugins.get( 'AnnotationsUIs' ).switchTo( 'inline' );
+                console.log('editor has AnnotationsUIs', editor.plugins.has('AnnotationsUIs'));
+                console.log('editor has CommentsRepository', editor.plugins.has('CommentsRepository'));
+                console.log('editor has Comments', editor.plugins.has('Comments'));
+                console.log('editor has Users', editor.plugins.has('Users'));
             } } />
     );
 }

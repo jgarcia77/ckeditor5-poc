@@ -10,7 +10,9 @@ function App() {
           CKEditor POC
         </p>
       </header>
-      <FormContent />
+      <main>
+        <FormContent />
+      </main>
     </div>
   );
 }
