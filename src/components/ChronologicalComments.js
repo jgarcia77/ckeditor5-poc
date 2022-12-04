@@ -5,7 +5,6 @@ import { ChronCommentsAdapter, commentThreads } from '../plugins/CommentingAdapt
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsAdapter];
 
 const ChronologicalComments = () => {
-    const fieldRef = useRef();
     const commentsPanelRef = useRef();
     const [mounted, setMounted] = useState(false);
 
@@ -21,13 +20,11 @@ const ChronologicalComments = () => {
             const commentsRepository = context.plugins.get( 'CommentsRepository' );
             
             commentsRepository.on( 'addCommentThread', ( evt, data ) => {
-                console.log('addCommentThread', data);
                 handleCommentThread( commentsRepository.getCommentThread( data.threadId ) );
             }, { priority: 'low' } );
 
             function handleCommentThread( thread ) {
                 if (!thread.isAttached) {
-                    console.log('attach thread', fieldRef.current, thread);
                     thread.attachTo(commentsPanelRef.current);
                 }
             }

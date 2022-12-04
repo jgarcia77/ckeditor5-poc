@@ -22,7 +22,7 @@ export const commentThreads = [
     }
 ]
 
-class CommentsAdapter extends ContextPlugin {
+export class CommentsAdapter extends ContextPlugin {
     init() {
         const users = this.context.plugins.get( 'Users' );
 
@@ -44,22 +44,24 @@ class CommentsAdapter extends ContextPlugin {
 
         commentsRepository.adapter = {
             addComment(data) {
-                console.log('addComment', data);
+                console.log('adapter.addComment', data);
                 return Promise.resolve();
             },
             updateComment(data) {
-                console.log('updateComment', data);
+                console.log('adapter.updateComment', data);
                 return Promise.resolve();
             },
             removeComment(data) {
-                console.log('removeComment', data);
+                console.log('adapter.removeComment', data);
                 return Promise.resolve();
             },
             getCommentThread(data) {
-                console.log( 'Getting comment thread', data );
+                console.log( 'adapter.getCommentThread', data );
                 return Promise.resolve();
             }
         };
+
+        this.registerRepository(commentsRepository);
     }
 };
 
