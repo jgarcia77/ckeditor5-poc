@@ -7,8 +7,8 @@ const FormContent = () => {
             <h3>Editor One</h3>
             <CommentEditor />
 
-            <h3>Editor Two</h3>
-            <CommentEditor />
+            {/* <h3>Editor Two</h3>
+            <CommentEditor /> */}
         </CommentsProvider>
     );
 };
