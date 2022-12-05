@@ -18,6 +18,7 @@ const ChronologicalComments = () => {
             });
 
             const commentsRepository = context.plugins.get( 'CommentsRepository' );
+            // const annotations = context.plugins.get( 'Annotations' );
             
             commentsRepository.on( 'addCommentThread', (evt, data) => {
                 const thread = commentsRepository.getCommentThread(data.threadId);
@@ -25,6 +26,11 @@ const ChronologicalComments = () => {
                 if (!thread.isAttached) {
                     thread.attachTo(commentsPanelRef.current);
                 }
+
+                // const threadView = commentsRepository._threadToController.get( thread ).view;
+                // const annotation = annotations.getByInnerView( threadView );
+
+                // annotation.focusableElements.add(commentsPanelRef.current);
             }, { priority: 'low' } );
 
             for ( const commentThread of commentThreads ) {
