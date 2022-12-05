@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { ChronCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
 import { ChronCommentsContextPlugin, commentThreads } from '../plugins/CommentsContextPlugins';
 
@@ -6,44 +7,43 @@ ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, C
 
 const ChronologicalComments = () => {
     const commentsPanelRef = useRef();
-    const [mounted, setMounted] = useState(false);
+    const [isLayoutReady, setIsLayoutReady] = useState(false);
 
     useEffect(() => {
-        const initContext = async () => {
-            const context = await ChronCommentsContext.create({
-                licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
-                sidebar: {
-                    container: commentsPanelRef.current,
-                    preventScrollOutOfView: true
-                }
-            });
-
-            const commentsRepository = context.plugins.get( 'CommentsRepository' );
-            
-            commentsRepository.on( 'addCommentThread', (evt, data) => {
-                const thread = commentsRepository.getCommentThread(data.threadId);
-
-                if (!thread.isAttached) {
-                    thread.attachTo(commentsPanelRef.current);
-                }
-            }, { priority: 'low' } );
-
-            for ( const commentThread of commentThreads ) {
-                commentsRepository.addCommentThread(commentThread);
-            }
-        };
-
-        if (!mounted) {
-            setMounted(true);
+        if (!isLayoutReady) {
+            setIsLayoutReady(true);
         }
-
-        if (mounted) {
-            initContext();
-        }
-    }, [mounted]);
+    }, [isLayoutReady]);
 
     return (
-        <div ref={commentsPanelRef}></div>
+        <>
+            <CKEditorContext
+                isLayoutReady={isLayoutReady}
+                config={{
+                        licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
+                        sidebar: {
+                            container: commentsPanelRef.current,
+                            preventScrollOutOfView: true
+                        }
+                    }}
+                context={ChronCommentsContext} 
+                onReady={(context) => {
+                    const commentsRepository = context.plugins.get( 'CommentsRepository' );
+            
+                    commentsRepository.on( 'addCommentThread', (evt, data) => {
+                        const thread = commentsRepository.getCommentThread(data.threadId);
+
+                        if (!thread.isAttached) {
+                            thread.attachTo(commentsPanelRef.current);
+                        }
+                    }, { priority: 'lowest' } );
+
+                    for ( const commentThread of commentThreads ) {
+                        commentsRepository.addCommentThread(commentThread);
+                    }
+                }} />
+            <div ref={commentsPanelRef}></div>
+        </>
     );
 };
 
