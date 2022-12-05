@@ -14,9 +14,7 @@ const initialData =
                     behavior, emotions and hence <strong>their personality</strong>.
                 </p>
                 <p>
-                    <comment-start name="thread-2"></comment-start>
-                    This shouldn’t come as a surprise
-                    <comment-end name="thread-2"></comment-end>
+                    <comment-start name="thread-2"></comment-start>This shouldn’t come as a surprise<comment-end name="thread-2"></comment-end>
                     <a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">since we already know</a>
                     that different regions of the brain become more active depending on the activity.
                     The structure, information and especially <strong>the culture</strong> of languages varies substantially
