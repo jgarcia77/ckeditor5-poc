@@ -23,18 +23,31 @@ const initialData =
 
 const CommentEditor = () => {
     return (
-        <CKEditor data={initialData} editor={ClassicEditor} config={{
-            toolbar: {
-                items: ['comment']
-            }
-        }}
-            onReady={ editor => {
-                // editor.plugins.get( 'AnnotationsUIs' ).switchTo( 'inline' );
-                // console.log('editor has AnnotationsUIs', editor.plugins.has('AnnotationsUIs'));
-                // console.log('editor has CommentsRepository', editor.plugins.has('CommentsRepository'));
-                // console.log('editor has Comments', editor.plugins.has('Comments'));
-                // console.log('editor has Users', editor.plugins.has('Users'));
-            } } />
+        <CKEditor 
+            data={initialData} 
+            editor={ClassicEditor} 
+            config={{
+                toolbar: {
+                    items: ['comment']
+                }
+            }}
+            onReady={(editor) => {} }
+            onChange={(event, editor) => {
+                const commentsRepository = editor.plugins.get( 'CommentsRepository' );
+                const allThreads = commentsRepository.getCommentThreads( {
+                    skipNotAttached: false,
+                    skipEmpty: true,
+                    toJSON: true
+                } );
+                const attachedThreads = commentsRepository.getCommentThreads( {
+                    skipNotAttached: true,
+                    skipEmpty: true,
+                    toJSON: true
+                } );
+                
+                console.log('allThreads', allThreads);
+                console.log('attachedThreads', attachedThreads);
+            }} />
     );
 }
 

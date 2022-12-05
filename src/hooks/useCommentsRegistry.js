@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
-import { commentsContextPlugins  } from '../plugins/CommentsContextPlugins';
+import { useState, useEffect, useCallback } from 'react';
+import { commentsContextPlugins, CommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
 
-const useCommentsRegistry = () => {
+const useCommentsRegistry = (isLayoutReady) => {
     const [inlineCommentsRepository, setInlineCommentsRepository] = useState();
     const [chronCommentsRepository, setChronCommentsRepository] = useState();
 
@@ -20,8 +20,23 @@ const useCommentsRegistry = () => {
         setInlineCommentsRepository(commentsRepository);
     }, []);
 
+    useEffect(() => {
+        if (!isLayoutReady) {
+            CommentsContextPlugin.prototype.registerRepository = registerRepository;
+        }
+    }, [isLayoutReady, registerRepository]);
+
+    const openNewInlineCommentThread = useCallback(() => {
+        inlineCommentsRepository.openNewCommentThread();
+    }, [inlineCommentsRepository]);
+
+    const openNewFieldCommentThread = useCallback(() => {
+        
+    }, []);
+
     return {
-        registerRepository
+        openNewInlineCommentThread,
+        openNewFieldCommentThread
     };
 };
 

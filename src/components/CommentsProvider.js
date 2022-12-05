@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useCommentsRegistry from '../hooks/useCommentsRegistry';
 import ChronologicalComments from './ChronologicalComments';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { CommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
-import { CommentsContextPlugin, InlineCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
+import { InlineCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
 
 CommentsContext.builtinPlugins = [...CommentsContext.builtinPlugins, InlineCommentsContextPlugin];
 
@@ -11,17 +11,16 @@ const CommentingContext = React.createContext({});
 
 const CommentsProvider = ({ children }) => {
     const [isLayoutReady, setIsLayoutReady] = useState(false);
-    const { registerRepository } = useCommentsRegistry();
+    const { 
+        openNewInlineCommentThread, 
+        openNewFieldCommentThread 
+    } = useCommentsRegistry(isLayoutReady);
 
     useEffect(() => {
         if (!isLayoutReady) {
-            CommentsContextPlugin.prototype.registerRepository = registerRepository;
             setIsLayoutReady(true);
         }
-    }, [isLayoutReady, registerRepository]);
-
-    const openNewInlineCommentThread = useCallback(() => {}, []);
-    const openNewFieldCommentThread = useCallback(() => {}, []);
+    }, [isLayoutReady]);
 
     return (
         <CommentingContext.Provider value={{
@@ -34,8 +33,7 @@ const CommentsProvider = ({ children }) => {
                     config={{
                             licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
                         }}
-                    context={CommentsContext} 
-                    onReady={(context) => {}}>
+                    context={CommentsContext}>
                     {isLayoutReady ? children : <></>}
                 </CKEditorContext>
             </section>
