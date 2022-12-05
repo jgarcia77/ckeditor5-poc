@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChronCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
-import { ChronCommentsAdapter, commentThreads } from '../plugins/CommentingAdapters';
+import { ChronCommentsContextPlugin, commentThreads } from '../plugins/CommentsContextPlugins';
 
-ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsAdapter];
+ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
 
 const ChronologicalComments = () => {
     const commentsPanelRef = useRef();
@@ -19,15 +19,13 @@ const ChronologicalComments = () => {
 
             const commentsRepository = context.plugins.get( 'CommentsRepository' );
             
-            commentsRepository.on( 'addCommentThread', ( evt, data ) => {
-                handleCommentThread( commentsRepository.getCommentThread( data.threadId ) );
-            }, { priority: 'low' } );
+            commentsRepository.on( 'addCommentThread', (evt, data) => {
+                const thread = commentsRepository.getCommentThread(data.threadId);
 
-            function handleCommentThread( thread ) {
                 if (!thread.isAttached) {
                     thread.attachTo(commentsPanelRef.current);
                 }
-            }
+            }, { priority: 'low' } );
 
             for ( const commentThread of commentThreads ) {
                 commentsRepository.addCommentThread(commentThread);

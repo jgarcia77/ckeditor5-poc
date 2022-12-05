@@ -1,5 +1,11 @@
 import { ContextPlugin } from 'ckeditor5-custom-build/build/ckeditor';
 
+export const commentsContextPlugins = Object.freeze({
+    InlineCommentsContextPlugin: 'InlineCommentsContextPlugin',
+    ChronCommentsContextPlugin: 'ChronCommentsContextPlugin',
+    FieldCommentsContextPlugin: 'FieldCommentsContextPlugin'
+});
+
 export const commentThreads = [
     {
         threadId: 'thread-1',
@@ -20,20 +26,34 @@ export const commentThreads = [
             }
         ]
     }
-]
+];
 
-export class CommentsAdapter extends ContextPlugin {
+export class CommentsContextPlugin extends ContextPlugin {
     init() {
         const users = this.context.plugins.get( 'Users' );
 
-        users.addUser( {
+        users.addUser({
             id: 'u1',
             name: 'Josue Garcia',
             initials: 'JG',
             isAnonymous: false
-        } );
+        });
 
         users.defineMe( 'u1' );
+
+        const commentsRepository = this.context.plugins.get('CommentsRepository');
+
+        this.registerRepository(this.Name, commentsRepository);
+    }
+};
+
+export class InlineCommentsContextPlugin extends CommentsContextPlugin {
+    get Name() {
+        return commentsContextPlugins.InlineCommentsContextPlugin
+    }
+
+    init() {
+        super.init();
 
         const commentsRepository = this.context.plugins.get('CommentsRepository');
 
@@ -60,28 +80,36 @@ export class CommentsAdapter extends ContextPlugin {
                 return Promise.resolve();
             }
         };
-
-        this.registerRepository(commentsRepository);
-    }
-};
-
-export class InlineCommentsAdapter extends CommentsAdapter {
-    get Name() {
-        return 'InlineCommentsAdapter'
     }
 }
 
-export class ChronCommentsAdapter extends ContextPlugin {
+export class ChronCommentsContextPlugin extends CommentsContextPlugin {
+    get Name() {
+        return commentsContextPlugins.ChronCommentsContextPlugin
+    }
+
     init() {
-        const users = this.context.plugins.get( 'Users' );
+        super.init();
 
-        users.addUser( {
-            id: 'u1',
-            name: 'Josue Garcia',
-            initials: 'JG',
-            isAnonymous: false
-        } );
+        const commentsRepository = this.context.plugins.get('CommentsRepository');
 
-        users.defineMe( 'u1' );
+        commentsRepository.adapter = {
+            addComment(data) {
+                console.log('adapter.addComment', data);
+                return Promise.resolve();
+            },
+            updateComment(data) {
+                console.log('adapter.updateComment', data);
+                return Promise.resolve();
+            },
+            removeComment(data) {
+                console.log('adapter.removeComment', data);
+                return Promise.resolve();
+            },
+            getCommentThread(data) {
+                console.log( 'adapter.getCommentThread', data );
+                return Promise.resolve();
+            }
+        };
     }
 }
