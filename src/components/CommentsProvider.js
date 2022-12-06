@@ -14,7 +14,7 @@ const CommentsProvider = ({ children }) => {
     const { 
         openNewInlineCommentThread, 
         openNewFieldCommentThread 
-    } = useCommentsRegistry(isLayoutReady);
+    } = useCommentsRegistry();
 
     useEffect(() => {
         if (!isLayoutReady) {

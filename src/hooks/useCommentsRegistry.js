@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { commentsContextPlugins, CommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
 
-const useCommentsRegistry = (isLayoutReady) => {
+const useCommentsRegistry = () => {
     const [inlineCommentsRepository, setInlineCommentsRepository] = useState();
     const [chronCommentsRepository, setChronCommentsRepository] = useState();
 
@@ -21,10 +21,8 @@ const useCommentsRegistry = (isLayoutReady) => {
     }, []);
 
     useEffect(() => {
-        if (!isLayoutReady) {
-            CommentsContextPlugin.prototype.registerRepository = registerRepository;
-        }
-    }, [isLayoutReady, registerRepository]);
+        CommentsContextPlugin.prototype.registerRepository = registerRepository;
+    }, [registerRepository]);
 
     const openNewInlineCommentThread = useCallback(() => {
         inlineCommentsRepository.openNewCommentThread();
