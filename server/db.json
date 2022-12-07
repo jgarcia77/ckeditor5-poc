@@ -1,0 +1,17 @@
+{
+    "users": [
+        {
+            "id": "u1",
+            "name": "Josue Garcia",
+            "initials": "JG",
+            "isAnonymous": false
+        },
+        {
+            "id": "u2",
+            "name": "Natalie Garcia",
+            "initials": "NG",
+            "isAnonymous": false
+        }
+    ],
+    "commentsThreads": []
+}
