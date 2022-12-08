@@ -31,7 +31,7 @@ const CommentsProvider = ({ children }) => {
                 <CKEditorContext
                     isLayoutReady={isLayoutReady}
                     config={{
-                            licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
+                            licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE'
                         }}
                     context={CommentsContext}>
                     {isLayoutReady ? children : <></>}

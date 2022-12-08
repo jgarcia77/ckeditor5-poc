@@ -21,14 +21,18 @@ const initialData =
                     and the language a person speaks is an essential element of daily life.
                 </p>`
 
-const CommentEditor = () => {
+const CommentEditor = ({ id }) => {
     return (
         <CKEditor 
-            data={initialData} 
+            id={id}
+            data={initialData}
             editor={ClassicEditor} 
             config={{
                 toolbar: {
                     items: ['comment']
+                },
+                collaboration: {
+                    channelId: id
                 }
             }}
             onReady={(editor) => {} }
