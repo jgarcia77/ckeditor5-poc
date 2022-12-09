@@ -12,20 +12,22 @@ const CommentingContext = React.createContext({});
 const CommentsProvider = ({ children }) => {
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const {
-        usersLoaded,
+        dataIsReady,
+        commentThreads,
         openNewInlineCommentThread, 
         openNewFieldCommentThread
     } = useCommentsRegistry();
 
     useEffect(() => {
-        if (!isLayoutReady && usersLoaded) {
+        if (!isLayoutReady && dataIsReady) {
             setIsLayoutReady(true);
         }
-    }, [isLayoutReady, usersLoaded]);
+    }, [isLayoutReady, dataIsReady]);
 
     return (
         <CommentingContext.Provider value={{
-            isLayoutReady,
+            dataIsReady,
+            commentThreads,
             openNewInlineCommentThread,
             openNewFieldCommentThread
         }}>
@@ -40,7 +42,7 @@ const CommentsProvider = ({ children }) => {
                 </CKEditorContext>
             </section>
             <section className="right-panel">
-                <ChronologicalComments providerIsReady={isLayoutReady} />
+                <ChronologicalComments />
             </section>
         </CommentingContext.Provider>
     )

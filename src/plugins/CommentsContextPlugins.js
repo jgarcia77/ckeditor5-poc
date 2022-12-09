@@ -48,7 +48,7 @@ export class CommentsContextPlugin extends ContextPlugin {
             users.addUser(this.users[user]);
         }
 
-        users.defineMe( 'u1' );
+        users.defineMe(this.currentUser);
 
         const commentsRepository = this.context.plugins.get('CommentsRepository');
 
@@ -79,11 +79,7 @@ export class InlineCommentsContextPlugin extends CommentsContextPlugin {
                 console.log('adapter.removeComment', data);
                 return Promise.resolve();
             },
-            getCommentThread(data) {
-                console.log( 'adapter.getCommentThread', data );
-                const thread = commentThreads.find(item => item.threadId === data.threadId);
-                return Promise.resolve(thread);
-            }
+            getCommentThread: this.commentingService.getCommentThread.bind(this)
         };
     }
 }

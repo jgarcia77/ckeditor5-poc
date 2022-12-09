@@ -13,5 +13,37 @@
             "isAnonymous": false
         }
     ],
-    "commentsThreads": []
+    "commentThreads": [
+        {
+            "threadId": "thread-1",
+            "comments": [
+                {
+                    "commentId": "comment-1",
+                    "authorId": "u1",
+                    "content": "<p>Are we sure we want to use a made-up disorder name?</p>",
+                    "createdAt": "2018-12-10T13:49:51.141Z",
+                    "attributes": {}
+                },
+                {
+                    "commentId": "comment-2",
+                    "authorId": "u1",
+                    "content": "<p>Why not?</p>",
+                    "createdAt": "2018-12-10T13:49:51.141Z",
+                    "attributes": {}
+                }
+            ]
+        },
+        {
+            "threadId": "thread-2",
+            "comments": [
+                {
+                    "commentId": "comment-3",
+                    "authorId": "u2",
+                    "content": "<p>Are we sure we want to use a made-up disorder name?</p>",
+                    "createdAt": "2018-12-10T13:49:51.141Z",
+                    "attributes": {}
+                }
+            ]
+        }
+    ]
 }

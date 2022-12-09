@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { ChronCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
-import { ChronCommentsContextPlugin, commentThreads } from '../plugins/CommentsContextPlugins';
+import { ChronCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
+import { useCommentingContext } from './CommentsProvider';
 
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
 
-const ChronologicalComments = ({ providerIsReady }) => {
+const ChronologicalComments = () => {
+    const { dataIsReady, commentThreads } = useCommentingContext();
     const commentsPanelRef = useRef();
     const [isLayoutReady, setIsLayoutReady] = useState(false);
 
@@ -18,7 +20,7 @@ const ChronologicalComments = ({ providerIsReady }) => {
     return (
         <>
             <CKEditorContext
-                isLayoutReady={isLayoutReady && providerIsReady}
+                isLayoutReady={isLayoutReady && dataIsReady}
                 config={{
                         licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
                         sidebar: {

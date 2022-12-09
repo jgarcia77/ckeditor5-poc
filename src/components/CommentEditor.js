@@ -21,7 +21,7 @@ const initialData =
                     and the language a person speaks is an essential element of daily life.
                 </p>`
 
-const CommentEditor = ({ id }) => {    
+const CommentEditor = ({ id }) => {
     return (
         <CKEditor 
             id={id}
@@ -35,7 +35,7 @@ const CommentEditor = ({ id }) => {
                     channelId: id
                 }
             }}
-            onReady={(editor) => {} }
+            onReady={(editor) => {}}
             onChange={(event, editor) => {
                 const commentsRepository = editor.plugins.get( 'CommentsRepository' );
                 const allThreads = commentsRepository.getCommentThreads( {
