@@ -21,7 +21,7 @@ const initialData =
                     and the language a person speaks is an essential element of daily life.
                 </p>`
 
-const CommentEditor = ({ id }) => {
+const CommentEditor = ({ id }) => {    
     return (
         <CKEditor 
             id={id}

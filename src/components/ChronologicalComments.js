@@ -5,7 +5,7 @@ import { ChronCommentsContextPlugin, commentThreads } from '../plugins/CommentsC
 
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
 
-const ChronologicalComments = () => {
+const ChronologicalComments = ({ providerIsReady }) => {
     const commentsPanelRef = useRef();
     const [isLayoutReady, setIsLayoutReady] = useState(false);
 
@@ -18,7 +18,7 @@ const ChronologicalComments = () => {
     return (
         <>
             <CKEditorContext
-                isLayoutReady={isLayoutReady}
+                isLayoutReady={isLayoutReady && providerIsReady}
                 config={{
                         licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
                         sidebar: {

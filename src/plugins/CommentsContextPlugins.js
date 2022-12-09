@@ -44,19 +44,9 @@ export class CommentsContextPlugin extends ContextPlugin {
     init() {
         const users = this.context.plugins.get( 'Users' );
 
-        users.addUser({
-            id: 'u1',
-            name: 'Josue Garcia',
-            initials: 'JG',
-            isAnonymous: false
-        });
-
-        users.addUser({
-            id: 'u2',
-            name: 'Natalie Garcia',
-            initials: 'NG',
-            isAnonymous: false
-        });
+        for(let user in this.users) {
+            users.addUser(this.users[user]);
+        }
 
         users.defineMe( 'u1' );
 
@@ -75,11 +65,6 @@ export class InlineCommentsContextPlugin extends CommentsContextPlugin {
         super.init();
 
         const commentsRepository = this.context.plugins.get('CommentsRepository');
-
-        // Load the comment threads data.
-        // for ( const commentThread of commentThreads ) {
-        //     commentsRepository.addCommentThread( commentThread );
-        // }
 
         commentsRepository.adapter = {
             addComment(data) {
