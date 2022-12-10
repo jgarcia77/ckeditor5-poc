@@ -15,10 +15,6 @@ export class CommentsContextPlugin extends ContextPlugin {
         }
 
         users.defineMe(this.currentUser);
-
-        const commentsRepository = this.context.plugins.get('CommentsRepository');
-
-        this.registerRepository(this.Name, commentsRepository);
     }
 };
 

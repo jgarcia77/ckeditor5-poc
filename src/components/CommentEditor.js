@@ -1,21 +1,19 @@
 import { useRef, useEffect, useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from 'ckeditor5-custom-build/build/ckeditor';
+import { v4 as uuidv4 } from 'uuid';
 
 const CommentEditor = ({ id, initialData }) => {
     const buttonRef = useRef();
-    const targetComment = useRef();
-    const [commentsRepository, setCommentsRepository] = useState();
+    const [editor, setEditor] = useState();
 
-    const handleOpenNewCommentThread = () => commentsRepository.openNewCommentThread({
-        channelId: id,
-        threadId: '654654654',
-        target: targetComment.current
-    });
+    const handleOpenNewCommentThread = () => {
+        editor.focus();
+        editor.execute('addCommentThread', { threadId: uuidv4() });
+    }
 
     const handleSelectionChange = () => {
         const selection = document.getSelection();
-        targetComment.current = selection.anchorNode.parentElement;
         console.log(selection);
     };
 
@@ -43,11 +41,10 @@ const CommentEditor = ({ id, initialData }) => {
                     }
                 }}
                 onReady={(editor) => {
-                    const commentsRepository = editor.plugins.get( 'CommentsRepository' );
-                    setCommentsRepository(commentsRepository)
+                    setEditor(editor);
                 }}
                 onChange={(event, editor) => {
-                    // const commentsRepository = editor.plugins.get( 'CommentsRepository' );
+                    const commentsRepository = editor.plugins.get( 'CommentsRepository' );
                     const allThreads = commentsRepository.getCommentThreads( {
                         skipNotAttached: false,
                         skipEmpty: true,

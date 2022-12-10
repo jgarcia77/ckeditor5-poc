@@ -20,59 +20,26 @@ const useCommentThreads = () => {
         fetchCommentThreads();
     }, []);
 
-    const addCommentOrThread = useCallback((data) => {
-        const commentThread = commentThreads.find(thread => thread.threadId === data.threadId);
-
-        if (commentThread) {
-            const newComment = {
-                commentId: data.commentId,
-                authorId: currentUser,
-                content: data.content,
-                createdAt: new Date(),
-                attributes: data.attributes
-            };
-
-            setCommentAction({
-                type: ADD_COMMENT,
-                data: {
-                    threadId: data.threadId,
-                    comment: newComment
-                }
-            });
-        } else {
-            const newCommentThread = {
-                threadId: data.threadId,
-                comments: [
-                    {
-                        commentId: data.commentId,
-                        authorId: currentUser,
-                        content: data.content,
-                        createdAt: new Date(),
-                        attributes: data.attributes
-                    }
-                ]
-            };
-
-            setCommentAction({
-                type: ADD_COMMENT_THREAD,
-                data: newCommentThread
-            });
-        };
-    }, [commentThreads]);
+    const addCommentOrThread = (data) => {
+        setCommentAction({
+            type: ADD_COMMENT,
+            data
+        });
+    };
 
     const updateCommentOrThread = useCallback((data) => {
         setCommentAction({
             type: UPDATE_COMMENT,
             data
         });
-    }, [commentThreads]);
+    }, []);
 
     const removeCommentOnly = useCallback((data) => {
         setCommentAction({
             type: REMOVE_COMMENT,
             data
         });
-    }, [commentThreads]);
+    }, []);
 
     const clearCommentAction = useCallback(() => setCommentAction(null), []);
 

@@ -14,8 +14,6 @@ const CommentsProvider = ({ children }) => {
     const {
         dataIsReady,
         commentThreads,
-        openNewInlineCommentThread, 
-        openNewFieldCommentThread,
         commentAction,
         clearCommentAction
     } = useCommentsRegistry();
@@ -30,8 +28,6 @@ const CommentsProvider = ({ children }) => {
         <CommentingContext.Provider value={{
             dataIsReady,
             commentThreads,
-            openNewInlineCommentThread,
-            openNewFieldCommentThread,
             commentAction,
             clearCommentAction
         }}>

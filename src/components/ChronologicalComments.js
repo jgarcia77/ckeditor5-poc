@@ -3,9 +3,11 @@ import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { ChronCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
 import { ChronCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
 import { useCommentingContext } from './CommentsProvider';
-import { ADD_COMMENT_THREAD, ADD_COMMENT, UPDATE_COMMENT, REMOVE_COMMENT } from '../hooks/useCommentThreads';
+import { ADD_COMMENT, UPDATE_COMMENT, REMOVE_COMMENT } from '../hooks/useCommentThreads';
 
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
+
+const currentUser = 'u1';
 
 const ChronologicalComments = () => {
     const { dataIsReady, commentThreads, commentAction, clearCommentAction } = useCommentingContext();
@@ -19,36 +21,65 @@ const ChronologicalComments = () => {
         }
     }, [isLayoutReady]);
 
-    useEffect(() => {
-        if (commentsRepository) {
-            for ( const commentThread of commentThreads ) {
-                if (!commentsRepository.hasCommentThread(commentThread.threadId)) {
-                    commentsRepository.addCommentThread({ ...commentThread, isFromAdapter: true });
+    const addNewCommentThread = (data) => {
+        const newCommentThread = {
+            threadId: data.threadId,
+            comments: [
+                {
+                    commentId: data.commentId,
+                    authorId: currentUser,
+                    content: data.content,
+                    createdAt: new Date(),
+                    attributes: data.attributes
                 }
-            }
-        }
-    }, [commentThreads, commentsRepository]);
+            ],
+            isFromAdapter: true
+        };
+
+        commentsRepository.addCommentThread(newCommentThread);
+    };
+
+    const addComment = (data) => {
+        const commentThread = commentsRepository.getCommentThread(data.threadId);
+        const comment = {
+            commentId: data.commentId,
+            authorId: currentUser,
+            content: data.content,
+            createdAt: new Date(),
+            attributes: data.attributes
+        };
+        
+        commentThread.addComment(comment);
+    };
+
+    const updateComment = (data) => {
+        const commentThread = commentsRepository.getCommentThread(data.threadId);
+        const comment = commentThread.getComment(data.commentId);
+        comment.update(data);
+    };
+
+    const removeComment = (data) => {
+        const commentThread = commentsRepository.getCommentThread(data.threadId);
+        const comment = commentThread.getComment(data.commentId);
+        comment.remove(data);
+    };
 
     useEffect(() => {
         if (commentAction) {
             debugger;
             switch (commentAction.type) {
-                case ADD_COMMENT_THREAD:
-                    commentsRepository.addCommentThread({ ...commentAction.data, isFromAdapter: true });
-                    break;
                 case ADD_COMMENT:
-                    const commentThread = commentsRepository.getCommentThread(commentAction.data.threadId);
-                    commentThread.addComment(commentAction.data.comment);
+                    if (commentsRepository.hasCommentThread(commentAction.data.threadId)) {
+                        addComment(commentAction.data);
+                    } else {
+                        addNewCommentThread(commentAction.data);
+                    }
                     break;
                 case UPDATE_COMMENT:
-                    const commentThreadToUpdate = commentsRepository.getCommentThread(commentAction.data.threadId);
-                    const commentToUpdate = commentThreadToUpdate.getComment(commentAction.data.commentId);
-                    commentToUpdate.update(commentAction.data);
+                    updateComment(commentAction.data);
                     break;
                 case REMOVE_COMMENT:
-                    const commentThreadToRemove = commentsRepository.getCommentThread(commentAction.data.threadId);
-                    const commentToRemove = commentThreadToRemove.getComment(commentAction.data.commentId);
-                    commentToRemove.remove(commentAction.data);
+                    removeComment(commentAction.data);
                     break;
                 default:
                     break;
@@ -56,7 +87,7 @@ const ChronologicalComments = () => {
 
             clearCommentAction();
         }
-    }, [commentAction]);
+    }, [commentAction, clearCommentAction, commentsRepository]);
 
     return (
         <>
@@ -83,6 +114,10 @@ const ChronologicalComments = () => {
                             thread.attachTo(commentsPanelRef.current);
                         }
                     }, { priority: 'lowest' } );
+
+                    for ( const commentThread of commentThreads ) {
+                        commentsRepository.addCommentThread({ ...commentThread, isFromAdapter: true });
+                    }
 
                     setCommentsRepository(commentsRepository);
                 }} />
