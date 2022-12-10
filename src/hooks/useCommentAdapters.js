@@ -11,12 +11,12 @@ const useCommentAdapters = () => {
     const dispatch = useDispatch();
 
     const users = useUsers();
-    const { commentThreads } = useCommentThreads();
+    const threads = useCommentThreads();
 
     const getCommentThread = useCallback(async (data) => {
-        const thread = commentThreads.find(item => item.threadId === data.threadId);
+        const thread = threads.data.find(item => item.threadId === data.threadId);
         return thread;
-    }, [commentThreads]);
+    }, [threads.data]);
 
     const addComment = async (data) => {
         dispatch(addCommentAction(data));
@@ -41,7 +41,7 @@ const useCommentAdapters = () => {
     }, [users.isFulfilled]);
 
     useEffect(() => {
-        if (commentThreads) {
+        if (threads.isFulfilled) {
             InlineCommentsContextPlugin.prototype.commentingService = {
                 getCommentThread,
                 addComment,
@@ -50,11 +50,10 @@ const useCommentAdapters = () => {
             };
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [commentThreads]);
+    }, [threads.isFulfilled]);
 
     return {
-        dataIsReady: users.isFulfilled && !!commentThreads,
-        commentThreads,
+        dataIsReady: users.isFulfilled && !!threads.isFulfilled,
         getCommentThread,
     };
 };

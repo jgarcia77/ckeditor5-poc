@@ -12,6 +12,7 @@ import {
     selectCommentToRemove,
     resetRemoveCommentAction
 } from '../redux/chronological';
+import { selectThreads } from '../redux/threads';
 
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
 
@@ -19,13 +20,14 @@ const currentUser = 'u1';
 
 const ChronologicalComments = () => {
     const dispatch = useDispatch();
-    const { dataIsReady, commentThreads } = useCommentingContext();
+    const { dataIsReady } = useCommentingContext();
     const commentsPanelRef = useRef();
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [commentsRepository, setCommentsRepository] = useState();
     const commentToAdd = useSelector(selectCommentToAdd);
     const commentToUpdate = useSelector(selectCommentToUpdate);
     const commentToRemove = useSelector(selectCommentToRemove);
+    const threads = useSelector(selectThreads);
 
     useEffect(() => {
         if (!isLayoutReady) {
@@ -136,7 +138,7 @@ const ChronologicalComments = () => {
                         }
                     }, { priority: 'lowest' } );
 
-                    for ( const commentThread of commentThreads ) {
+                    for ( const commentThread of threads.data ) {
                         commentsRepository.addCommentThread({ ...commentThread, isFromAdapter: true });
                     }
 

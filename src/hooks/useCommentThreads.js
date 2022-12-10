@@ -1,23 +1,18 @@
-import { useEffect, useState, useCallback } from 'react';
-import { getCommentThreads } from "../apis/commentThreadAPI";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { readCommentThreads, selectThreads } from '../redux/threads';
 
 const currentUser = 'u1';
 
 const useCommentThreads = () => {
-    const [commentThreads, setCommentThreads] = useState();
+    const dispatch = useDispatch();
+    const threads = useSelector(selectThreads);
 
     useEffect(() => {
-        const fetchCommentThreads = async () => {
-            const commentThreads = await getCommentThreads();
-            setCommentThreads(commentThreads);
-        };
-
-        fetchCommentThreads();
+        dispatch(readCommentThreads());
     }, []);
 
-    return {
-        commentThreads
-    };
+    return threads;
 };
 
 export default useCommentThreads;

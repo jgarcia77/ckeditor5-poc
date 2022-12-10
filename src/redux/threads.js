@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getUsers } from '../apis/usersAPI';
+import { getCommentThreads } from '../apis/commentThreadAPI';
 
-export const readUsers = createAsyncThunk('commenting/users/read', async() => {
-    return await getUsers();
+export const readCommentThreads = createAsyncThunk('commenting/threads/read', async() => {
+    return await getCommentThreads();
 });
 
 const initialState = {
@@ -13,25 +13,25 @@ const initialState = {
     data: []
 };
 
-const usersSlice = createSlice({
-    name: 'users',
+const threadsSlice = createSlice({
+    name: 'threads',
     initialState,
     extraReducers: (builder) => {
-        builder.addCase(readUsers.pending, (state) => {
+        builder.addCase(readCommentThreads.pending, (state) => {
             state.isIdle = false;
             state.isPending = true;
             state.isFulfilled = false;
             state.isRejected = false;
             state.data = [];
         });
-        builder.addCase(readUsers.rejected, (state) => {
+        builder.addCase(readCommentThreads.rejected, (state) => {
             state.isIdle = false;
             state.isPending = false;
             state.isFulfilled = false;
             state.isRejected = true;
             state.data = [];
         });
-        builder.addCase(readUsers.fulfilled, (state, action) => {
+        builder.addCase(readCommentThreads.fulfilled, (state, action) => {
             state.isIdle = false;
             state.isPending = false;
             state.isFulfilled = true;
@@ -41,6 +41,6 @@ const usersSlice = createSlice({
     }
 });
 
-export const selectUsers = (state) => state.commenting.users;
+export const selectThreads = (state) => state.commenting.threads;
 
-export default usersSlice.reducer;
+export default threadsSlice.reducer;
