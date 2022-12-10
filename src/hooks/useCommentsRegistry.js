@@ -1,11 +1,15 @@
 import { useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { CommentsContextPlugin, InlineCommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
 import useUsers from './useUsers';
 import useCommentThreads from './useCommentThreads';
+import { addCommentAction, updateCommentAction, removeCommentAction } from '../redux/chronological';
 
 const currentUser = 'u1';
 
 const useCommentsRegistry = () => {
+    const dispatch = useDispatch();
+
     const users = useUsers();
     const { commentThreads, addCommentOrThread, updateCommentOrThread, removeCommentOnly, commentAction, clearCommentAction } = useCommentThreads();
 
@@ -15,19 +19,16 @@ const useCommentsRegistry = () => {
     }, [commentThreads]);
 
     const addComment = async (data) => {
-        debugger;
-        addCommentOrThread(data);
+        dispatch(addCommentAction(data));
     };
 
-    const updateComment = useCallback(async (data) => {
-        console.log('updateComment', data);
-        updateCommentOrThread(data);
-    }, [updateCommentOrThread]);
+    const updateComment = async (data) => {
+        dispatch(updateCommentAction(data));
+    };
 
-    const removeComment = useCallback(async (data) => {
-        console.log('removeComment', data);
-        removeCommentOnly(data);
-    }, [removeCommentOnly]);
+    const removeComment = async (data) => {
+        dispatch(removeCommentAction(data));
+    };
 
     useEffect(() => {
         CommentsContextPlugin.prototype.currentUser = currentUser;
@@ -54,8 +55,6 @@ const useCommentsRegistry = () => {
         dataIsReady: !!users && !!commentThreads,
         commentThreads,
         getCommentThread,
-        commentAction, 
-        clearCommentAction
     };
 };
 

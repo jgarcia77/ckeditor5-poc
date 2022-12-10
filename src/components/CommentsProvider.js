@@ -13,9 +13,7 @@ const CommentsProvider = ({ children }) => {
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const {
         dataIsReady,
-        commentThreads,
-        commentAction,
-        clearCommentAction
+        commentThreads
     } = useCommentsRegistry();
 
     useEffect(() => {
@@ -27,9 +25,7 @@ const CommentsProvider = ({ children }) => {
     return (
         <CommentingContext.Provider value={{
             dataIsReady,
-            commentThreads,
-            commentAction,
-            clearCommentAction
+            commentThreads
         }}>
             <section className="comment-content">
                 <CKEditorContext

@@ -1,19 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { ChronCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
 import { ChronCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
 import { useCommentingContext } from './CommentsProvider';
-import { ADD_COMMENT, UPDATE_COMMENT, REMOVE_COMMENT } from '../hooks/useCommentThreads';
+import { 
+    selectCommentToAdd, 
+    resetAddCommentAction,
+    selectCommentToUpdate,
+    resetUpdateCommentAction,
+    selectCommentToRemove,
+    resetRemoveCommentAction
+} from '../redux/chronological';
 
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
 
 const currentUser = 'u1';
 
 const ChronologicalComments = () => {
-    const { dataIsReady, commentThreads, commentAction, clearCommentAction } = useCommentingContext();
+    const dispatch = useDispatch();
+    const { dataIsReady, commentThreads } = useCommentingContext();
     const commentsPanelRef = useRef();
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [commentsRepository, setCommentsRepository] = useState();
+    const commentToAdd = useSelector(selectCommentToAdd);
+    const commentToUpdate = useSelector(selectCommentToUpdate);
+    const commentToRemove = useSelector(selectCommentToRemove);
 
     useEffect(() => {
         if (!isLayoutReady) {
@@ -65,29 +77,36 @@ const ChronologicalComments = () => {
     };
 
     useEffect(() => {
-        if (commentAction) {
-            debugger;
-            switch (commentAction.type) {
-                case ADD_COMMENT:
-                    if (commentsRepository.hasCommentThread(commentAction.data.threadId)) {
-                        addComment(commentAction.data);
-                    } else {
-                        addNewCommentThread(commentAction.data);
-                    }
-                    break;
-                case UPDATE_COMMENT:
-                    updateComment(commentAction.data);
-                    break;
-                case REMOVE_COMMENT:
-                    removeComment(commentAction.data);
-                    break;
-                default:
-                    break;
-            };
-
-            clearCommentAction();
+        if (!commentToAdd) {
+            return;
         }
-    }, [commentAction, clearCommentAction, commentsRepository]);
+
+        if (commentsRepository.hasCommentThread(commentToAdd.threadId)) {
+            addComment(commentToAdd);
+        } else {
+            addNewCommentThread(commentToAdd);
+        }
+
+        dispatch(resetAddCommentAction());
+    }, [commentToAdd]);
+
+    useEffect(() => {
+        if (!commentToUpdate) {
+            return;
+        }
+
+        updateComment(commentToUpdate);
+
+        dispatch(resetUpdateCommentAction());
+    }, [commentToUpdate]);
+
+    useEffect(() => {
+        if (!commentToRemove) {
+            return;
+        }
+
+        removeComment(commentToRemove);
+    }, [commentToRemove]);
 
     return (
         <>
