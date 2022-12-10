@@ -7,7 +7,7 @@ import { addCommentAction, updateCommentAction, removeCommentAction } from '../r
 
 const currentUser = 'u1';
 
-const useCommentsRegistry = () => {
+const useCommentAdapters = () => {
     const dispatch = useDispatch();
 
     const users = useUsers();
@@ -35,10 +35,10 @@ const useCommentsRegistry = () => {
     }, []);
 
     useEffect(() => {
-        if (users) {
-            CommentsContextPlugin.prototype.users = users;
+        if (users.isFulfilled) {
+            CommentsContextPlugin.prototype.users = users.data;
         }
-    }, [users]);
+    }, [users.isFulfilled]);
 
     useEffect(() => {
         if (commentThreads) {
@@ -53,10 +53,10 @@ const useCommentsRegistry = () => {
     }, [commentThreads]);
 
     return {
-        dataIsReady: !!users && !!commentThreads,
+        dataIsReady: users.isFulfilled && !!commentThreads,
         commentThreads,
         getCommentThread,
     };
 };
 
-export default useCommentsRegistry;
+export default useCommentAdapters;

@@ -47,8 +47,8 @@ export const {
     resetRemoveCommentAction
 } = chronologicalSlice.actions;
 
-export const selectCommentToAdd = (state) => state.chronological.commentToAdd;
-export const selectCommentToUpdate = (state) => state.chronological.commentToUpdate;
-export const selectCommentToRemove = (state) => state.chronological.commentToRemove;
+export const selectCommentToAdd = (state) => state.commenting.chronological.commentToAdd;
+export const selectCommentToUpdate = (state) => state.commenting.chronological.commentToUpdate;
+export const selectCommentToRemove = (state) => state.commenting.chronological.commentToRemove;
 
 export default chronologicalSlice.reducer;

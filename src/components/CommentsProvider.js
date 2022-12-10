@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useCommentsRegistry from '../hooks/useCommentsRegistry';
+import useCommentAdapters from '../hooks/useCommentAdapters';
 import ChronologicalComments from './ChronologicalComments';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { CommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
@@ -14,7 +14,7 @@ const CommentsProvider = ({ children }) => {
     const {
         dataIsReady,
         commentThreads
-    } = useCommentsRegistry();
+    } = useCommentAdapters();
 
     useEffect(() => {
         if (!isLayoutReady && dataIsReady) {

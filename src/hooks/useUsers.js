@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
-import { getUsers } from "../apis/usersAPI";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { readUsers, selectUsers } from '../redux/users';
 
 const useUsers = () => {
-    const [users, setUsers] = useState();
+    const dispatch = useDispatch();
+    const users = useSelector(selectUsers);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            const users = await getUsers();
-            setUsers(users);
-        };
-
-        fetchUsers();
+        dispatch(readUsers());
     }, []);
 
     return users;
