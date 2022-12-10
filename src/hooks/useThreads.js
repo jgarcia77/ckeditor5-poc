@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { readCommentThreads, selectThreads } from '../redux/threads';
 
-const currentUser = 'u1';
-
-const useCommentThreads = () => {
+const useThreads = () => {
     const dispatch = useDispatch();
     const threads = useSelector(selectThreads);
 
@@ -15,4 +13,4 @@ const useCommentThreads = () => {
     return threads;
 };
 
-export default useCommentThreads;
+export default useThreads;

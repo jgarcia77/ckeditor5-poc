@@ -3,7 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from 'ckeditor5-custom-build/build/ckeditor';
 import { v4 as uuidv4 } from 'uuid';
 
-const CommentEditor = ({ id, initialData }) => {
+const InlineCommentEditor = ({ id, initialData }) => {
     const buttonRef = useRef();
     const [editor, setEditor] = useState();
 
@@ -64,4 +64,4 @@ const CommentEditor = ({ id, initialData }) => {
     );
 }
 
-export default CommentEditor;
+export default InlineCommentEditor;

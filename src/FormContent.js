@@ -1,5 +1,5 @@
 import CommentsProvider from "./components/CommentsProvider";
-import CommentEditor from "./components/CommentEditor";
+import InlineCommentEditor from "./components/InlineCommentEditor";
 
 const editor1Data =
                 `<h2>
@@ -25,7 +25,7 @@ const FormContent = () => {
     return (
         <CommentsProvider>
             <h3>Editor One</h3>
-            <CommentEditor id="editor-01" initialData={editor1Data} />
+            <InlineCommentEditor id="editor-01" initialData={editor1Data} />
 
             {/* <h3>Editor Two</h3>
             <CommentEditor id="editor-02" /> */}

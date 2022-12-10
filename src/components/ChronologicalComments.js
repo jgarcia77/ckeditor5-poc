@@ -20,7 +20,7 @@ const currentUser = 'u1';
 
 const ChronologicalComments = () => {
     const dispatch = useDispatch();
-    const { dataIsReady } = useCommentingContext();
+    const { pluginsAreReady } = useCommentingContext();
     const commentsPanelRef = useRef();
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [commentsRepository, setCommentsRepository] = useState();
@@ -115,7 +115,7 @@ const ChronologicalComments = () => {
     return (
         <>
             <CKEditorContext
-                isLayoutReady={isLayoutReady && dataIsReady}
+                isLayoutReady={isLayoutReady && pluginsAreReady}
                 config={{
                         licenseKey: 'SsCD/VMf4oJy+RRwL7IFxIQAmjOs3z/I9a5AF6B4lDUGTo2392iE',
                         sidebar: {

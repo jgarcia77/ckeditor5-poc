@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useCommentAdapters from '../hooks/useCommentAdapters';
+import useContextPlugins from '../hooks/useContextPlugins';
 import ChronologicalComments from './ChronologicalComments';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { CommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
@@ -12,20 +12,18 @@ const CommentingContext = React.createContext({});
 const CommentsProvider = ({ children }) => {
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const {
-        dataIsReady,
-        commentThreads
-    } = useCommentAdapters();
+        pluginsAreReady,
+    } = useContextPlugins();
 
     useEffect(() => {
-        if (!isLayoutReady && dataIsReady) {
+        if (!isLayoutReady && pluginsAreReady) {
             setIsLayoutReady(true);
         }
-    }, [isLayoutReady, dataIsReady]);
+    }, [isLayoutReady, pluginsAreReady]);
 
     return (
         <CommentingContext.Provider value={{
-            dataIsReady,
-            commentThreads
+            pluginsAreReady
         }}>
             <section className="comment-content">
                 <CKEditorContext

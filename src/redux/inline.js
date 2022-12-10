@@ -6,8 +6,8 @@ const initialState = {
     commentToRemove: null,
 };
 
-const chronologicalSlice = createSlice({
-    name: 'chronological',
+const inlineSlice = createSlice({
+    name: 'inline',
     initialState,
     reducers: {
         addCommentAction: (state, action) => {
@@ -38,10 +38,10 @@ export const {
     resetUpdateCommentAction,
     removeCommentAction,
     resetRemoveCommentAction
-} = chronologicalSlice.actions;
+} = inlineSlice.actions;
 
-export const selectCommentToAdd = (state) => state.commenting.chronological.commentToAdd;
-export const selectCommentToUpdate = (state) => state.commenting.chronological.commentToUpdate;
-export const selectCommentToRemove = (state) => state.commenting.chronological.commentToRemove;
+export const selectCommentToAdd = (state) => state.commenting.inline.commentToAdd;
+export const selectCommentToUpdate = (state) => state.commenting.inline.commentToUpdate;
+export const selectCommentToRemove = (state) => state.commenting.inline.commentToRemove;
 
-export default chronologicalSlice.reducer;
+export default inlineSlice.reducer;

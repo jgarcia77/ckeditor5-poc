@@ -2,21 +2,21 @@ import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { CommentsContextPlugin, InlineCommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
 import useUsers from './useUsers';
-import useCommentThreads from './useCommentThreads';
+import useThreads from './useThreads';
 import { addCommentAction, updateCommentAction, removeCommentAction } from '../redux/chronological';
 
 const currentUser = 'u1';
 
-const useCommentAdapters = () => {
+const useContextPlugins = () => {
     const dispatch = useDispatch();
 
     const users = useUsers();
-    const threads = useCommentThreads();
+    const threads = useThreads();
 
-    const getCommentThread = useCallback(async (data) => {
+    const getCommentThread = async (data) => {
         const thread = threads.data.find(item => item.threadId === data.threadId);
         return thread;
-    }, [threads.data]);
+    };
 
     const addComment = async (data) => {
         dispatch(addCommentAction(data));
@@ -53,9 +53,8 @@ const useCommentAdapters = () => {
     }, [threads.isFulfilled]);
 
     return {
-        dataIsReady: users.isFulfilled && !!threads.isFulfilled,
-        getCommentThread,
+        pluginsAreReady: users.isFulfilled && !!threads.isFulfilled,
     };
 };
 
-export default useCommentAdapters;
+export default useContextPlugins;
