@@ -69,8 +69,8 @@ const useCommentsRegistry = () => {
         }
     }, [commentThreads]);
 
-    const openNewInlineCommentThread = useCallback(() => {
-        inlineCommentsRepository.openNewCommentThread();
+    const openNewInlineCommentThread = useCallback((data) => {
+        inlineCommentsRepository.openNewCommentThread(data);
     }, [inlineCommentsRepository]);
 
     const openNewFieldCommentThread = useCallback(() => {

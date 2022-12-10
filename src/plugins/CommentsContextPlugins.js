@@ -6,40 +6,6 @@ export const commentsContextPlugins = Object.freeze({
     FieldCommentsContextPlugin: 'FieldCommentsContextPlugin'
 });
 
-export const commentThreads = [
-    {
-        threadId: 'thread-1',
-        comments: [
-            {
-                commentId: 'comment-1',
-                authorId: 'u1',
-                content: '<p>Are we sure we want to use a made-up disorder name?</p>',
-                createdAt: new Date( '09/20/2022 14:21:53' ),
-                attributes: {}
-            },
-            {
-                commentId: 'comment-2',
-                authorId: 'u1',
-                content: '<p>Why not?</p>',
-                createdAt: new Date( '09/21/2022 08:17:01' ),
-                attributes: {}
-            }
-        ]
-    },
-    {
-        threadId: 'thread-2',
-        comments: [
-            {
-                commentId: 'comment-3',
-                authorId: 'u2',
-                content: '<p>Are we sure we want to use a made-up disorder name?</p>',
-                createdAt: new Date( '04/01/2015 14:21:53' ),
-                attributes: {}
-            }
-        ]
-    }
-];
-
 export class CommentsContextPlugin extends ContextPlugin {
     init() {
         const users = this.context.plugins.get( 'Users' );
