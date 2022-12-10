@@ -11,7 +11,7 @@ const useCommentsRegistry = () => {
     const dispatch = useDispatch();
 
     const users = useUsers();
-    const { commentThreads, addCommentOrThread, updateCommentOrThread, removeCommentOnly, commentAction, clearCommentAction } = useCommentThreads();
+    const { commentThreads } = useCommentThreads();
 
     const getCommentThread = useCallback(async (data) => {
         const thread = commentThreads.find(item => item.threadId === data.threadId);
@@ -49,7 +49,8 @@ const useCommentsRegistry = () => {
                 removeComment
             };
         }
-    }, [commentThreads, getCommentThread, updateComment, removeComment]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [commentThreads]);
 
     return {
         dataIsReady: !!users && !!commentThreads,

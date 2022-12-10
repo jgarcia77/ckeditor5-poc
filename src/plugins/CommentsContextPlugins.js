@@ -1,11 +1,5 @@
 import { ContextPlugin } from 'ckeditor5-custom-build/build/ckeditor';
 
-export const commentsContextPlugins = Object.freeze({
-    InlineCommentsContextPlugin: 'InlineCommentsContextPlugin',
-    ChronCommentsContextPlugin: 'ChronCommentsContextPlugin',
-    FieldCommentsContextPlugin: 'FieldCommentsContextPlugin'
-});
-
 export class CommentsContextPlugin extends ContextPlugin {
     init() {
         const users = this.context.plugins.get( 'Users' );
@@ -19,29 +13,21 @@ export class CommentsContextPlugin extends ContextPlugin {
 };
 
 export class InlineCommentsContextPlugin extends CommentsContextPlugin {
-    get Name() {
-        return commentsContextPlugins.InlineCommentsContextPlugin
-    }
-
     init() {
         super.init();
 
         const commentsRepository = this.context.plugins.get('CommentsRepository');
 
         commentsRepository.adapter = {
-            addComment: this.commentingService.addComment.bind(this),
-            updateComment: this.commentingService.updateComment.bind(this),
-            removeComment: this.commentingService.removeComment.bind(this),
-            getCommentThread: this.commentingService.getCommentThread.bind(this)
+            addComment: this.commentingService.addComment,
+            updateComment: this.commentingService.updateComment,
+            removeComment: this.commentingService.removeComment,
+            getCommentThread: this.commentingService.getCommentThread
         };
     }
 }
 
 export class ChronCommentsContextPlugin extends CommentsContextPlugin {
-    get Name() {
-        return commentsContextPlugins.ChronCommentsContextPlugin
-    }
-
     init() {
         super.init();
 
@@ -49,19 +35,19 @@ export class ChronCommentsContextPlugin extends CommentsContextPlugin {
 
         commentsRepository.adapter = {
             addComment(data) {
-                console.log(this.Name, 'adapter.addComment', data);
+                console.log('Chronological => adapter.addComment', data);
                 return Promise.resolve();
             },
             updateComment(data) {
-                console.log(this.Name, 'adapter.updateComment', data);
+                console.log('Chronological => adapter.updateComment', data);
                 return Promise.resolve();
             },
             removeComment(data) {
-                console.log(this.Name, 'adapter.removeComment', data);
+                console.log('Chronological => adapter.removeComment', data);
                 return Promise.resolve();
             },
             getCommentThread(data) {
-                console.log(this.Name, 'adapter.getCommentThread', data );
+                console.log('Chronological => adapter.getCommentThread', data );
                 return Promise.resolve();
             }
         };

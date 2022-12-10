@@ -45,7 +45,7 @@ const ChronologicalComments = () => {
                     attributes: data.attributes
                 }
             ],
-            isFromAdapter: true
+            isFromAdapter: false
         };
 
         commentsRepository.addCommentThread(newCommentThread);
@@ -106,6 +106,8 @@ const ChronologicalComments = () => {
         }
 
         removeComment(commentToRemove);
+
+        dispatch(resetRemoveCommentAction());
     }, [commentToRemove]);
 
     return (

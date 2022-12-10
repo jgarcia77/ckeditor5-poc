@@ -13,8 +13,9 @@ const CommentEditor = ({ id, initialData }) => {
     }
 
     const handleSelectionChange = () => {
+        // eslint-disable-next-line
         const selection = document.getSelection();
-        console.log(selection);
+        // console.log(selection);
     };
 
     useEffect(() => {
