@@ -15,7 +15,9 @@ const CommentsProvider = ({ children }) => {
         dataIsReady,
         commentThreads,
         openNewInlineCommentThread, 
-        openNewFieldCommentThread
+        openNewFieldCommentThread,
+        commentAction,
+        clearCommentAction
     } = useCommentsRegistry();
 
     useEffect(() => {
@@ -29,7 +31,9 @@ const CommentsProvider = ({ children }) => {
             dataIsReady,
             commentThreads,
             openNewInlineCommentThread,
-            openNewFieldCommentThread
+            openNewFieldCommentThread,
+            commentAction,
+            clearCommentAction
         }}>
             <section className="comment-content">
                 <CKEditorContext

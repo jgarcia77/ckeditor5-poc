@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { commentsContextPlugins, CommentsContextPlugin, InlineCommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
+import { commentsContextPlugins, CommentsContextPlugin, InlineCommentsContextPlugin, ChronCommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
 import useUsers from './useUsers';
 import useCommentThreads from './useCommentThreads';
+
+const currentUser = 'u1';
 
 const useCommentsRegistry = () => {
     const [inlineCommentsRepository, setInlineCommentsRepository] = useState();
     const [chronCommentsRepository, setChronCommentsRepository] = useState();
     const users = useUsers();
-    const commentThreads = useCommentThreads();
+    const { commentThreads, addCommentOrThread, updateCommentOrThread, removeCommentOnly, commentAction, clearCommentAction } = useCommentThreads();
 
     const registerRepository = useCallback((name, commentsRepository) => {
         switch (name) {
@@ -24,13 +26,29 @@ const useCommentsRegistry = () => {
         setInlineCommentsRepository(commentsRepository);
     }, []);
 
-    const getCommentThread = async (data) => {
+    const getCommentThread = useCallback(async (data) => {
         const thread = commentThreads.find(item => item.threadId === data.threadId);
         return thread;
+    }, [commentThreads]);
+
+    const addComment = async (data) => {
+        addCommentOrThread(data);
+    };
+
+    const updateComment = async (data) => {
+        debugger;
+        console.log('updateComment', data);
+        updateCommentOrThread(data);
+    };
+
+    const removeComment = async (data) => {
+        debugger;
+        console.log('removeComment', data);
+        removeCommentOnly(data);
     };
 
     useEffect(() => {
-        CommentsContextPlugin.prototype.currentUser = 'u1';
+        CommentsContextPlugin.prototype.currentUser = currentUser;
         CommentsContextPlugin.prototype.registerRepository = registerRepository;
     }, [registerRepository]);
 
@@ -43,7 +61,10 @@ const useCommentsRegistry = () => {
     useEffect(() => {
         if (commentThreads) {
             InlineCommentsContextPlugin.prototype.commentingService = {
-                getCommentThread
+                getCommentThread,
+                addComment,
+                updateComment,
+                removeComment
             };
         }
     }, [commentThreads]);
@@ -59,8 +80,11 @@ const useCommentsRegistry = () => {
     return {
         dataIsReady: !!users && !!commentThreads,
         commentThreads,
+        getCommentThread,
         openNewInlineCommentThread,
-        openNewFieldCommentThread
+        openNewFieldCommentThread,
+        commentAction, 
+        clearCommentAction
     };
 };
 
