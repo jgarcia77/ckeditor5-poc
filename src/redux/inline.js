@@ -10,38 +10,38 @@ const inlineSlice = createSlice({
     name: 'inline',
     initialState,
     reducers: {
-        addCommentAction: (state, action) => {
+        addInlineComment: (state, action) => {
             state.commentToAdd = action.payload;
         },
-        resetAddCommentAction: (state) => {
+        resetAddInlineComment: (state) => {
             state.commentToAdd = null;
         },
-        updateCommentAction: (state, action) => {
+        updateInlineComment: (state, action) => {
             state.commentToUpdate = action.payload;
         },
-        resetUpdateCommentAction: (state) => {
+        resetUpdateInlineComment: (state) => {
             state.commentToUpdate = null;
         },
-        removeCommentAction: (state, action) => {
+        removeInlineComment: (state, action) => {
             state.commentToRemove = action.payload;
         },
-        resetRemoveCommentAction: (state) => {
+        resetRemoveInlineComment: (state) => {
             state.commentToRemove = null;
         }
     }
 });
 
 export const { 
-    addCommentAction, 
-    resetAddCommentAction,
-    updateCommentAction,
-    resetUpdateCommentAction,
-    removeCommentAction,
-    resetRemoveCommentAction
+    addInlineComment, 
+    resetAddInlineComment,
+    updateInlineComment,
+    resetUpdateInlineComment,
+    removeInlineComment,
+    resetRemoveInlineComment
 } = inlineSlice.actions;
 
-export const selectCommentToAdd = (state) => state.commenting.inline.commentToAdd;
-export const selectCommentToUpdate = (state) => state.commenting.inline.commentToUpdate;
-export const selectCommentToRemove = (state) => state.commenting.inline.commentToRemove;
+export const selectInlineCommentToAdd = (state) => state.commenting.inline.commentToAdd;
+export const selectInlineCommentToUpdate = (state) => state.commenting.inline.commentToUpdate;
+export const selectInlineCommentToRemove = (state) => state.commenting.inline.commentToRemove;
 
 export default inlineSlice.reducer;

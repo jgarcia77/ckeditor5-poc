@@ -1,9 +1,9 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { CommentsContextPlugin, InlineCommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
 import useUsers from './useUsers';
 import useThreads from './useThreads';
-import { addCommentAction, updateCommentAction, removeCommentAction } from '../redux/chronological';
+import { addChronComment, updateChronComment, removeChronComment } from '../redux/chronological';
 
 const currentUser = 'u1';
 
@@ -12,23 +12,6 @@ const useContextPlugins = () => {
 
     const users = useUsers();
     const threads = useThreads();
-
-    const getCommentThread = async (data) => {
-        const thread = threads.data.find(item => item.threadId === data.threadId);
-        return thread;
-    };
-
-    const addComment = async (data) => {
-        dispatch(addCommentAction(data));
-    };
-
-    const updateComment = async (data) => {
-        dispatch(updateCommentAction(data));
-    };
-
-    const removeComment = async (data) => {
-        dispatch(removeCommentAction(data));
-    };
 
     useEffect(() => {
         CommentsContextPlugin.prototype.currentUser = currentUser;
@@ -43,10 +26,19 @@ const useContextPlugins = () => {
     useEffect(() => {
         if (threads.isFulfilled) {
             InlineCommentsContextPlugin.prototype.commentingService = {
-                getCommentThread,
-                addComment,
-                updateComment,
-                removeComment
+                getCommentThread: async (data) => {
+                    const thread = threads.data.find(item => item.threadId === data.threadId);
+                    return thread;
+                },
+                addComment: async (data) => {
+                    dispatch(addChronComment(data));
+                },
+                updateComment: async (data) => {
+                    dispatch(updateChronComment(data));
+                },
+                removeComment: async (data) => {
+                    dispatch(removeChronComment(data));
+                }
             };
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -5,12 +5,12 @@ import { ChronCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
 import { ChronCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
 import { useCommentingContext } from './CommentsProvider';
 import { 
-    selectCommentToAdd, 
-    resetAddCommentAction,
-    selectCommentToUpdate,
-    resetUpdateCommentAction,
-    selectCommentToRemove,
-    resetRemoveCommentAction
+    selectChronCommentToAdd, 
+    resetAddChronComment,
+    selectChronCommentToUpdate,
+    resetUpdateChronComment,
+    selectChronCommentToRemove,
+    resetRemoveChronComment
 } from '../redux/chronological';
 import { selectThreads } from '../redux/threads';
 
@@ -24,9 +24,9 @@ const ChronologicalComments = () => {
     const commentsPanelRef = useRef();
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [commentsRepository, setCommentsRepository] = useState();
-    const commentToAdd = useSelector(selectCommentToAdd);
-    const commentToUpdate = useSelector(selectCommentToUpdate);
-    const commentToRemove = useSelector(selectCommentToRemove);
+    const commentToAdd = useSelector(selectChronCommentToAdd);
+    const commentToUpdate = useSelector(selectChronCommentToUpdate);
+    const commentToRemove = useSelector(selectChronCommentToRemove);
     const threads = useSelector(selectThreads);
 
     useEffect(() => {
@@ -89,7 +89,7 @@ const ChronologicalComments = () => {
             addNewCommentThread(commentToAdd);
         }
 
-        dispatch(resetAddCommentAction());
+        dispatch(resetAddChronComment());
     }, [commentToAdd]);
 
     useEffect(() => {
@@ -99,7 +99,7 @@ const ChronologicalComments = () => {
 
         updateComment(commentToUpdate);
 
-        dispatch(resetUpdateCommentAction());
+        dispatch(resetUpdateChronComment());
     }, [commentToUpdate]);
 
     useEffect(() => {
@@ -109,7 +109,7 @@ const ChronologicalComments = () => {
 
         removeComment(commentToRemove);
 
-        dispatch(resetRemoveCommentAction());
+        dispatch(resetRemoveChronComment());
     }, [commentToRemove]);
 
     return (

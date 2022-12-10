@@ -10,38 +10,38 @@ const chronologicalSlice = createSlice({
     name: 'chronological',
     initialState,
     reducers: {
-        addCommentAction: (state, action) => {
+        addChronComment: (state, action) => {
             state.commentToAdd = action.payload;
         },
-        resetAddCommentAction: (state) => {
+        resetAddChronComment: (state) => {
             state.commentToAdd = null;
         },
-        updateCommentAction: (state, action) => {
+        updateChronComment: (state, action) => {
             state.commentToUpdate = action.payload;
         },
-        resetUpdateCommentAction: (state) => {
+        resetUpdateChronComment: (state) => {
             state.commentToUpdate = null;
         },
-        removeCommentAction: (state, action) => {
+        removeChronComment: (state, action) => {
             state.commentToRemove = action.payload;
         },
-        resetRemoveCommentAction: (state) => {
+        resetRemoveChronComment: (state) => {
             state.commentToRemove = null;
         }
     }
 });
 
 export const { 
-    addCommentAction, 
-    resetAddCommentAction,
-    updateCommentAction,
-    resetUpdateCommentAction,
-    removeCommentAction,
-    resetRemoveCommentAction
+    addChronComment, 
+    resetAddChronComment,
+    updateChronComment,
+    resetUpdateChronComment,
+    removeChronComment,
+    resetRemoveChronComment
 } = chronologicalSlice.actions;
 
-export const selectCommentToAdd = (state) => state.commenting.chronological.commentToAdd;
-export const selectCommentToUpdate = (state) => state.commenting.chronological.commentToUpdate;
-export const selectCommentToRemove = (state) => state.commenting.chronological.commentToRemove;
+export const selectChronCommentToAdd = (state) => state.commenting.chronological.commentToAdd;
+export const selectChronCommentToUpdate = (state) => state.commenting.chronological.commentToUpdate;
+export const selectChronCommentToRemove = (state) => state.commenting.chronological.commentToRemove;
 
 export default chronologicalSlice.reducer;
