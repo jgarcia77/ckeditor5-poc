@@ -34,3 +34,27 @@ main {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.field-comment {
+  display: flex;
+  align-items: center;
+}
+
+.field-label {
+  padding-right: 10px;
+}
+
+.field-comment > button {
+  height: 20px;
+  width: 20px;
+  padding: 0px;
+  text-align: center;
+}
+
+.field-comment-panel {
+  width: 75%;
+  height: 300px;
+  background-color: gainsboro;
+  position: relative;
+  left: 10px;
+}

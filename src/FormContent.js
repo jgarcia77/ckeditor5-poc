@@ -1,5 +1,6 @@
 import CommentsProvider from "./components/CommentsProvider";
 import InlineCommentEditor from "./components/InlineCommentEditor";
+import FieldComment from "./components/FieldComment";
 
 const editor1Data =
                 `<h2>
@@ -33,10 +34,20 @@ const editor2Data = `
 const FormContent = () => {
     return (
         <CommentsProvider>
-            <h3>Editor One</h3>
+            <FieldComment id="field-1">
+                <h3>Editor One</h3>
+            </FieldComment>
+            
             <InlineCommentEditor id="editor-01" initialData={editor1Data} />
 
-            <h3>Editor Two</h3>
+            <br />
+            <hr />
+            <br />
+
+            <FieldComment id="field-2">
+                <h3>Editor Two</h3>
+            </FieldComment>
+            
             <InlineCommentEditor id="editor-02" initialData={editor2Data} />
         </CommentsProvider>
     );

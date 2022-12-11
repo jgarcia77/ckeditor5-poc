@@ -40,3 +40,17 @@ export class ChronCommentsContextPlugin extends CommentsContextPlugin {
         };
     }
 }
+
+export class FieldCommentsContextPlugin extends CommentsContextPlugin {
+    init() {
+        super.init();
+
+        const commentsRepository = this.context.plugins.get('CommentsRepository');
+
+        commentsRepository.adapter = {
+            addComment: (data) => { return Promise.resolve() },
+            updateComment: (data) => { return Promise.resolve() },
+            removeComment: (data) => { return Promise.resolve() }
+        };
+    }
+}
