@@ -44,6 +44,18 @@
                     "attributes": {}
                 }
             ]
+        },
+        {
+            "threadId": "thread-3",
+            "comments": [
+                {
+                    "commentId": "comment-4",
+                    "authorId": "u2",
+                    "content": "<p>Merry Christmas</p>",
+                    "createdAt": "2021-12-25T13:49:51.141Z",
+                    "attributes": {}
+                }
+            ]
         }
     ]
 }

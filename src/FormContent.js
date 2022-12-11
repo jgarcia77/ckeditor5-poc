@@ -21,6 +21,15 @@ const editor1Data =
                     and the language a person speaks is an essential element of daily life.
                 </p>`
 
+const editor2Data = `
+    <h1>Happy Holidays</h1>
+    <p>
+        <comment-start name="thread-3"></comment-start>
+        Feel free to respond
+        <comment-end name="thread-3"></comment-end>
+    </p>
+`;
+
 const FormContent = () => {
     return (
         <CommentsProvider>
@@ -28,7 +37,7 @@ const FormContent = () => {
             <InlineCommentEditor id="editor-01" initialData={editor1Data} />
 
             <h3>Editor Two</h3>
-            <InlineCommentEditor id="editor-02" />
+            <InlineCommentEditor id="editor-02" initialData={editor2Data} />
         </CommentsProvider>
     );
 };
