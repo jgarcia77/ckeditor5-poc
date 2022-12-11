@@ -47,21 +47,24 @@ const InlineCommentEditor = ({ id, initialData }) => {
 
         if (commentsRepository.hasCommentThread(commentToAdd.threadId)) {
             const commentThread = commentsRepository.getCommentThread(commentToAdd.threadId);
-            const comment = {
-                commentId: commentToAdd.commentId,
-                authorId: currentUser,
-                content: commentToAdd.content,
-                createdAt: new Date(),
-                attributes: commentToAdd.attributes,
-                isFromAdapter: true
-            };
-            
-            commentThread.addComment(comment);
-            editor.focus();
-            commentsRepository.setActiveCommentThread(commentToAdd.threadId);
-        }
 
-        dispatch(resetAddInlineComment());
+            if (commentThread.channelId === id) {
+                const comment = {
+                    commentId: commentToAdd.commentId,
+                    authorId: currentUser,
+                    content: commentToAdd.content,
+                    createdAt: new Date(),
+                    attributes: commentToAdd.attributes,
+                    isFromAdapter: true
+                };
+                
+                commentThread.addComment(comment);
+                editor.focus();
+                commentsRepository.setActiveCommentThread(commentToAdd.threadId);
+
+                dispatch(resetAddInlineComment());
+            }
+        }
     }, [commentToAdd]);
 
     useEffect(() => {
@@ -70,10 +73,13 @@ const InlineCommentEditor = ({ id, initialData }) => {
         }
 
         const commentThread = commentsRepository.getCommentThread(commentToUpdate.threadId);
-        const comment = commentThread.getComment(commentToUpdate.commentId);
-        comment.update({ ...commentToUpdate, isFromAdapter: true });
 
-        dispatch(resetUpdateInlineComment());
+        if (commentThread.channelId === id) {
+            const comment = commentThread.getComment(commentToUpdate.commentId);
+            comment.update({ ...commentToUpdate, isFromAdapter: true });
+
+            dispatch(resetUpdateInlineComment());
+        }
     }, [commentToUpdate]);
 
     useEffect(() => {
@@ -82,10 +88,13 @@ const InlineCommentEditor = ({ id, initialData }) => {
         }
 
         const commentThread = commentsRepository.getCommentThread(commentToRemove.threadId);
-        const comment = commentThread.getComment(commentToRemove.commentId);
-        comment.remove({ ...commentToRemove, isFromAdapter: true });
 
-        dispatch(resetRemoveInlineComment());
+        if (commentThread.channelId === id) {
+            const comment = commentThread.getComment(commentToRemove.commentId);
+            comment.remove({ ...commentToRemove, isFromAdapter: true });
+
+            dispatch(resetRemoveInlineComment());
+        }
     }, [commentToRemove]);
 
     return (

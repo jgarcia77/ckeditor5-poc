@@ -27,8 +27,8 @@ const FormContent = () => {
             <h3>Editor One</h3>
             <InlineCommentEditor id="editor-01" initialData={editor1Data} />
 
-            {/* <h3>Editor Two</h3>
-            <CommentEditor id="editor-02" /> */}
+            <h3>Editor Two</h3>
+            <InlineCommentEditor id="editor-02" />
         </CommentsProvider>
     );
 };
