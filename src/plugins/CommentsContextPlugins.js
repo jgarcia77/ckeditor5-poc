@@ -34,22 +34,9 @@ export class ChronCommentsContextPlugin extends CommentsContextPlugin {
         const commentsRepository = this.context.plugins.get('CommentsRepository');
 
         commentsRepository.adapter = {
-            addComment(data) {
-                console.log('Chronological => adapter.addComment', data);
-                return Promise.resolve();
-            },
-            updateComment(data) {
-                console.log('Chronological => adapter.updateComment', data);
-                return Promise.resolve();
-            },
-            removeComment(data) {
-                console.log('Chronological => adapter.removeComment', data);
-                return Promise.resolve();
-            },
-            getCommentThread(data) {
-                console.log('Chronological => adapter.getCommentThread', data );
-                return Promise.resolve();
-            }
+            addComment: this.commentingService.addComment,
+            updateComment: this.commentingService.updateComment,
+            removeComment: this.commentingService.removeComment
         };
     }
 }

@@ -1,11 +1,27 @@
 import { useRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from 'ckeditor5-custom-build/build/ckeditor';
 import { v4 as uuidv4 } from 'uuid';
+import { 
+    selectInlineCommentToAdd, 
+    resetAddInlineComment,
+    selectInlineCommentToUpdate,
+    resetUpdateInlineComment,
+    selectInlineCommentToRemove,
+    resetRemoveInlineComment
+} from '../redux/inline';
+
+const currentUser = 'u1';
 
 const InlineCommentEditor = ({ id, initialData }) => {
+    const dispatch = useDispatch();
     const buttonRef = useRef();
     const [editor, setEditor] = useState();
+    const [commentsRepository, setCommentsRepository] = useState();
+    const commentToAdd = useSelector(selectInlineCommentToAdd);
+    const commentToUpdate = useSelector(selectInlineCommentToUpdate);
+    const commentToRemove = useSelector(selectInlineCommentToRemove);
 
     const handleOpenNewCommentThread = () => {
         editor.focus();
@@ -23,6 +39,54 @@ const InlineCommentEditor = ({ id, initialData }) => {
 
         return () => document.removeEventListener(handleSelectionChange);
     }, []);
+
+    useEffect(() => {
+        if (!commentToAdd) {
+            return;
+        }
+
+        if (commentsRepository.hasCommentThread(commentToAdd.threadId)) {
+            const commentThread = commentsRepository.getCommentThread(commentToAdd.threadId);
+            const comment = {
+                commentId: commentToAdd.commentId,
+                authorId: currentUser,
+                content: commentToAdd.content,
+                createdAt: new Date(),
+                attributes: commentToAdd.attributes,
+                isFromAdapter: true
+            };
+            
+            commentThread.addComment(comment);
+            editor.focus();
+            commentsRepository.setActiveCommentThread(commentToAdd.threadId);
+        }
+
+        dispatch(resetAddInlineComment());
+    }, [commentToAdd]);
+
+    useEffect(() => {
+        if (!commentToUpdate) {
+            return;
+        }
+
+        const commentThread = commentsRepository.getCommentThread(commentToUpdate.threadId);
+        const comment = commentThread.getComment(commentToUpdate.commentId);
+        comment.update({ ...commentToUpdate, isFromAdapter: true });
+
+        dispatch(resetUpdateInlineComment());
+    }, [commentToUpdate]);
+
+    useEffect(() => {
+        if (!commentToRemove) {
+            return;
+        }
+
+        const commentThread = commentsRepository.getCommentThread(commentToRemove.threadId);
+        const comment = commentThread.getComment(commentToRemove.commentId);
+        comment.remove({ ...commentToRemove, isFromAdapter: true });
+
+        dispatch(resetRemoveInlineComment());
+    }, [commentToRemove]);
 
     return (
         <>
@@ -42,7 +106,9 @@ const InlineCommentEditor = ({ id, initialData }) => {
                     }
                 }}
                 onReady={(editor) => {
+                    const commentsRepository = editor.plugins.get( 'CommentsRepository' );
                     setEditor(editor);
+                    setCommentsRepository(commentsRepository);
                 }}
                 onChange={(event, editor) => {
                     const commentsRepository = editor.plugins.get( 'CommentsRepository' );

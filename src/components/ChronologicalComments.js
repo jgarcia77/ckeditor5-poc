@@ -47,7 +47,7 @@ const ChronologicalComments = () => {
                     attributes: data.attributes
                 }
             ],
-            isFromAdapter: false
+            isFromAdapter: true
         };
 
         commentsRepository.addCommentThread(newCommentThread);
@@ -60,7 +60,8 @@ const ChronologicalComments = () => {
             authorId: currentUser,
             content: data.content,
             createdAt: new Date(),
-            attributes: data.attributes
+            attributes: data.attributes,
+            isFromAdapter: true
         };
         
         commentThread.addComment(comment);
@@ -69,13 +70,13 @@ const ChronologicalComments = () => {
     const updateComment = (data) => {
         const commentThread = commentsRepository.getCommentThread(data.threadId);
         const comment = commentThread.getComment(data.commentId);
-        comment.update(data);
+        comment.update({ ...data, isFromAdapter: true });
     };
 
     const removeComment = (data) => {
         const commentThread = commentsRepository.getCommentThread(data.threadId);
         const comment = commentThread.getComment(data.commentId);
-        comment.remove(data);
+        comment.remove({ ...data, isFromAdapter: true });
     };
 
     useEffect(() => {
