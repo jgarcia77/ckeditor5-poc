@@ -72,6 +72,10 @@ const InlineCommentEditor = ({ id, initialData }) => {
             return;
         }
 
+        if (!commentsRepository.hasCommentThread(commentToRemove.threadId)) {
+            return;
+        }
+
         const commentThread = commentsRepository.getCommentThread(commentToUpdate.threadId);
 
         if (commentThread.channelId === id) {
@@ -84,6 +88,10 @@ const InlineCommentEditor = ({ id, initialData }) => {
 
     useEffect(() => {
         if (!commentToRemove) {
+            return;
+        }
+
+        if (!commentsRepository.hasCommentThread(commentToRemove.threadId)) {
             return;
         }
 

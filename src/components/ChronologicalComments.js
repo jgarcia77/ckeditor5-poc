@@ -36,10 +36,13 @@ const ChronologicalComments = () => {
     }, [isLayoutReady]);
 
     const addNewCommentThread = (data) => {
+        const lastComment = commentsPanelRef.current.querySelector('.ck-sidebar-item:last-child');
+        const target = lastComment ?? commentsPanelRef.current;
         const newCommentThread = {
             threadId: data.threadId,
             comments: [
                 {
+                    channelId: data.channelId,
                     commentId: data.commentId,
                     authorId: currentUser,
                     content: data.content,
@@ -47,6 +50,7 @@ const ChronologicalComments = () => {
                     attributes: data.attributes
                 }
             ],
+            target,
             isFromAdapter: true
         };
 
@@ -56,6 +60,7 @@ const ChronologicalComments = () => {
     const addComment = (data) => {
         const commentThread = commentsRepository.getCommentThread(data.threadId);
         const comment = {
+            channelId: data.channelId,
             commentId: data.commentId,
             authorId: currentUser,
             content: data.content,
@@ -122,30 +127,23 @@ const ChronologicalComments = () => {
                         sidebar: {
                             container: commentsPanelRef.current,
                             preventScrollOutOfView: true
-                        },
-                        collaboration: {
-                            channelId: 'chronological-channel'
                         }
                     }}
                 context={ChronCommentsContext} 
                 onReady={(context) => {
                     const commentsRepository = context.plugins.get( 'CommentsRepository' );
-            
-                    commentsRepository.on( 'addCommentThread', (evt, data) => {
-                        const thread = commentsRepository.getCommentThread(data.threadId);
-
-                        if (!thread.isAttached) {
-                            thread.attachTo(commentsPanelRef.current);
-                        }
-                    }, { priority: 'lowest' } );
 
                     for ( const commentThread of threads.data ) {
-                        commentsRepository.addCommentThread({ ...commentThread, isFromAdapter: true });
+                        commentsRepository.addCommentThread({ 
+                            ...commentThread, 
+                            target: commentsPanelRef.current, 
+                            isFromAdapter: true 
+                        });
                     }
 
                     setCommentsRepository(commentsRepository);
                 }} />
-            <div ref={commentsPanelRef}></div>
+            <div ref={commentsPanelRef} />
         </>
     );
 };

@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { CommentsContextPlugin, InlineCommentsContextPlugin, ChronCommentsContextPlugin  } from '../plugins/CommentsContextPlugins';
+import { 
+    CommentsContextPlugin, 
+    InlineCommentsContextPlugin, 
+    ChronCommentsContextPlugin,
+    FieldCommentsContextPlugin
+} from '../plugins/CommentsContextPlugins';
 import useUsers from './useUsers';
 import useThreads from './useThreads';
 import { addChronComment, updateChronComment, removeChronComment } from '../redux/chronological';
@@ -64,6 +69,18 @@ const useContextPlugins = () => {
                         threadId: data.threadId,
                         commentId: data.commentId
                     }));
+                }
+            };
+
+            FieldCommentsContextPlugin.prototype.commentingService = {
+                addComment: async (data) => {
+                    dispatch(addChronComment(data));
+                },
+                updateComment: async (data) => {
+                    dispatch(updateChronComment(data));
+                },
+                removeComment: async (data) => {
+                    dispatch(removeChronComment(data));
                 }
             };
         }

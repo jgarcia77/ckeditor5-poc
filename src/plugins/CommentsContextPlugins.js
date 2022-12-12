@@ -48,9 +48,9 @@ export class FieldCommentsContextPlugin extends CommentsContextPlugin {
         const commentsRepository = this.context.plugins.get('CommentsRepository');
 
         commentsRepository.adapter = {
-            addComment: (data) => { return Promise.resolve() },
-            updateComment: (data) => { return Promise.resolve() },
-            removeComment: (data) => { return Promise.resolve() }
+            addComment: this.commentingService.addComment,
+            updateComment: this.commentingService.updateComment,
+            removeComment: this.commentingService.removeComment
         };
     }
 }
