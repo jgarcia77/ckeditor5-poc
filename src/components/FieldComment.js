@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CKEditorContext } from '@ckeditor/ckeditor5-react';
 import { FieldCommentsContext } from 'ckeditor5-custom-build/build/ckeditor';
 import { FieldCommentsContextPlugin } from '../plugins/CommentsContextPlugins';
 import { useCommentingContext } from './CommentsProvider';
 import { v4 as uuidv4 } from 'uuid';
+import { 
+    selectFieldCommentToAdd, 
+    resetAddFieldComment,
+    selectFieldCommentToUpdate,
+    resetUpdateFieldComment,
+    selectFieldCommentToRemove,
+    resetRemoveFieldComment
+} from '../redux/field';
 
 FieldCommentsContext.builtinPlugins = [...FieldCommentsContext.builtinPlugins, FieldCommentsContextPlugin];
 
@@ -15,12 +24,82 @@ const FieldComment = ({ id, children }) => {
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [commentsRepository, setCommentsRepository] = useState();
     const { pluginsAreReady } = useCommentingContext();
+    const commentToAdd = useSelector(selectFieldCommentToAdd);
+    const commentToUpdate = useSelector(selectFieldCommentToUpdate);
+    const commentToRemove = useSelector(selectFieldCommentToRemove);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!isLayoutReady) {
             setIsLayoutReady(true);
         }
     }, [isLayoutReady]);
+
+    useEffect(() => {
+        if (!commentToAdd) {
+            return;
+        }
+
+        if (commentsRepository.hasCommentThread(commentToAdd.threadId)) {
+            const commentThread = commentsRepository.getCommentThread(commentToAdd.threadId);
+
+            if (commentThread.channelId === 'fields-channel') {
+                const comment = {
+                    commentId: commentToAdd.commentId,
+                    authorId: currentUser,
+                    content: commentToAdd.content,
+                    createdAt: new Date(),
+                    attributes: commentToAdd.attributes,
+                    isFromAdapter: true
+                };
+                
+                commentThread.addComment(comment);
+                commentsRepository.setActiveCommentThread(commentToAdd.threadId);
+
+                dispatch(resetAddFieldComment());
+            }
+        }
+    }, [commentToAdd]);
+
+    useEffect(() => {
+        if (!commentToUpdate) {
+            return;
+        }
+
+        if (!commentsRepository.hasCommentThread(commentToUpdate.threadId)) {
+            return;
+        }
+
+        const commentThread = commentsRepository.getCommentThread(commentToUpdate.threadId);
+
+        if (commentThread.channelId === 'fields-channel') {
+            const comment = commentThread.getComment(commentToUpdate.commentId);
+            comment.update({ ...commentToUpdate, isFromAdapter: true });
+
+            commentsRepository.setActiveCommentThread(commentToUpdate.threadId);
+
+            dispatch(resetUpdateFieldComment());
+        }
+    }, [commentToUpdate]);
+
+    useEffect(() => {
+        if (!commentToRemove) {
+            return;
+        }
+
+        if (!commentsRepository.hasCommentThread(commentToRemove.threadId)) {
+            return;
+        }
+
+        const commentThread = commentsRepository.getCommentThread(commentToRemove.threadId);
+
+        if (commentThread.channelId === 'fields-channel') {
+            const comment = commentThread.getComment(commentToRemove.commentId);
+            comment.remove({ ...commentToRemove, isFromAdapter: true });
+
+            dispatch(resetRemoveFieldComment());
+        }
+    }, [commentToRemove]);
 
     const handleOpenNewCommentThread = () => {
         commentsRepository.openNewCommentThread({

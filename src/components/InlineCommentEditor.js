@@ -72,7 +72,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
             return;
         }
 
-        if (!commentsRepository.hasCommentThread(commentToRemove.threadId)) {
+        if (!commentsRepository.hasCommentThread(commentToUpdate.threadId)) {
             return;
         }
 
@@ -81,6 +81,9 @@ const InlineCommentEditor = ({ id, initialData }) => {
         if (commentThread.channelId === id) {
             const comment = commentThread.getComment(commentToUpdate.commentId);
             comment.update({ ...commentToUpdate, isFromAdapter: true });
+
+            editor.focus();
+                commentsRepository.setActiveCommentThread(commentToUpdate.threadId);
 
             dispatch(resetUpdateInlineComment());
         }

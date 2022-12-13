@@ -133,10 +133,13 @@ const ChronologicalComments = () => {
                 onReady={(context) => {
                     const commentsRepository = context.plugins.get( 'CommentsRepository' );
 
+                    const lastComment = commentsPanelRef.current.querySelector('.ck-sidebar-item:last-child');
+                    const target = lastComment ?? commentsPanelRef.current;
+
                     for ( const commentThread of threads.data ) {
                         commentsRepository.addCommentThread({ 
-                            ...commentThread, 
-                            target: commentsPanelRef.current, 
+                            ...commentThread,
+                            target,
                             isFromAdapter: true 
                         });
                     }

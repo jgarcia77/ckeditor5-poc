@@ -10,6 +10,7 @@ import useUsers from './useUsers';
 import useThreads from './useThreads';
 import { addChronComment, updateChronComment, removeChronComment } from '../redux/chronological';
 import { addInlineComment, updateInlineComment, removeInlineComment } from '../redux/inline';
+import { addFieldComment, updateFieldComment, removeFieldComment } from '../redux/field';
 
 const currentUser = 'u1';
 
@@ -55,6 +56,12 @@ const useContextPlugins = () => {
                         content: data.content,
                         attributes: data.attributes
                     }));
+                    dispatch(addFieldComment({
+                        threadId: data.threadId,
+                        commentId: data.commentId,
+                        content: data.content,
+                        attributes: data.attributes
+                    }));
                 },
                 updateComment: async (data) => {
                     dispatch(updateInlineComment({
@@ -63,9 +70,19 @@ const useContextPlugins = () => {
                         content: data.content,
                         attributes: data.attributes
                     }));
+                    dispatch(updateFieldComment({
+                        threadId: data.threadId,
+                        commentId: data.commentId,
+                        content: data.content,
+                        attributes: data.attributes
+                    }));
                 },
                 removeComment: async (data) => {
                     dispatch(removeInlineComment({
+                        threadId: data.threadId,
+                        commentId: data.commentId
+                    }));
+                    dispatch(removeFieldComment({
                         threadId: data.threadId,
                         commentId: data.commentId
                     }));

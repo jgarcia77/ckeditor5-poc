@@ -54,6 +54,13 @@
                     "content": "<p>Merry Christmas</p>",
                     "createdAt": "2021-12-25T13:49:51.141Z",
                     "attributes": {}
+                },
+                {
+                    "commentId": "comment-5",
+                    "authorId": "u1",
+                    "content": "<p>Feliz Navidad</p>",
+                    "createdAt": "2021-12-25T13:51:23.141Z",
+                    "attributes": {}
                 }
             ]
         }
