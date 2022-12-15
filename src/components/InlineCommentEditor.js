@@ -9,7 +9,9 @@ import {
     selectInlineCommentToUpdate,
     resetUpdateInlineComment,
     selectInlineCommentToRemove,
-    resetRemoveInlineComment
+    resetRemoveInlineComment,
+    selectInlineCommentThreadToRemove,
+    resetRemoveInlineCommentThread
 } from '../redux/inline';
 
 const currentUser = 'u1';
@@ -22,6 +24,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
     const commentToAdd = useSelector(selectInlineCommentToAdd);
     const commentToUpdate = useSelector(selectInlineCommentToUpdate);
     const commentToRemove = useSelector(selectInlineCommentToRemove);
+    const commentThreadToRemove = useSelector(selectInlineCommentThreadToRemove);
 
     const handleOpenNewCommentThread = () => {
         editor.focus();
@@ -107,6 +110,26 @@ const InlineCommentEditor = ({ id, initialData }) => {
             dispatch(resetRemoveInlineComment());
         }
     }, [commentToRemove]);
+
+    useEffect(() => {
+        if (!commentThreadToRemove) {
+            return;
+        }
+
+        if (!commentsRepository.hasCommentThread(commentThreadToRemove.threadId)) {
+            return;
+        }
+
+        debugger;
+
+        const commentThread = commentsRepository.getCommentThread(commentThreadToRemove.threadId);
+
+        if (commentThread.channelId === id) {
+            commentThread.remove({ isFromAdapter: true });
+            dispatch(resetRemoveInlineCommentThread());
+        }
+
+    }, [commentThreadToRemove]);
 
     return (
         <>

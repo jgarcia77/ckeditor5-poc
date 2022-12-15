@@ -11,7 +11,9 @@ import {
     selectFieldCommentToUpdate,
     resetUpdateFieldComment,
     selectFieldCommentToRemove,
-    resetRemoveFieldComment
+    resetRemoveFieldComment,
+    selectFieldCommentThreadToRemove,
+    resetRemoveFieldCommentThread
 } from '../redux/field';
 
 FieldCommentsContext.builtinPlugins = [...FieldCommentsContext.builtinPlugins, FieldCommentsContextPlugin];
@@ -27,6 +29,8 @@ const FieldComment = ({ id, children }) => {
     const commentToAdd = useSelector(selectFieldCommentToAdd);
     const commentToUpdate = useSelector(selectFieldCommentToUpdate);
     const commentToRemove = useSelector(selectFieldCommentToRemove);
+    const commentThreadToRemove = useSelector(selectFieldCommentThreadToRemove);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -100,6 +104,26 @@ const FieldComment = ({ id, children }) => {
             dispatch(resetRemoveFieldComment());
         }
     }, [commentToRemove]);
+
+    useEffect(() => {
+        if (!commentThreadToRemove) {
+            return;
+        }
+
+        if (!commentsRepository.hasCommentThread(commentThreadToRemove.threadId)) {
+            return;
+        }
+
+        debugger;
+
+        const commentThread = commentsRepository.getCommentThread(commentThreadToRemove.threadId);
+
+        if (commentThread.channelId === 'fields-channel') {
+            commentThread.remove({ isFromAdapter: true });
+            dispatch(resetRemoveFieldCommentThread());
+        }
+
+    }, [commentThreadToRemove]);
 
     const handleOpenNewCommentThread = () => {
         commentsRepository.openNewCommentThread({

@@ -16,6 +16,7 @@
     "commentThreads": [
         {
             "threadId": "thread-1",
+            "channelId": "editor-01",
             "comments": [
                 {
                     "commentId": "comment-1",
@@ -35,6 +36,7 @@
         },
         {
             "threadId": "thread-2",
+            "channelId": "editor-01",
             "comments": [
                 {
                     "commentId": "comment-3",
@@ -47,6 +49,7 @@
         },
         {
             "threadId": "thread-3",
+            "channelId": "editor-02",
             "comments": [
                 {
                     "commentId": "comment-4",

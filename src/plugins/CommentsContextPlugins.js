@@ -42,11 +42,7 @@ export class ChronCommentsContextPlugin extends CommentsContextPlugin {
             addComment: this.commentingService.addComment,
             updateComment: this.commentingService.updateComment,
             removeComment: this.commentingService.removeComment,
-            removeCommentThread: (data) => {
-                console.log("Remove comment thread chronological");
-                console.log(data);
-                return Promise.resolve();
-            }
+            removeCommentThread: this.commentingService.removeCommentThread
         };
     }
 }

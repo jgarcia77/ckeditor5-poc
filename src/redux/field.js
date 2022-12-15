@@ -4,6 +4,7 @@ const initialState = {
     commentToAdd: null,
     commentToUpdate: null,
     commentToRemove: null,
+    commentThreadToRemove: null
 };
 
 const fieldSlice = createSlice({
@@ -27,6 +28,12 @@ const fieldSlice = createSlice({
         },
         resetRemoveFieldComment: (state) => {
             state.commentToRemove = null;
+        },
+        removeFieldCommentThread: (state, action) => {
+            state.commentThreadToRemove = action.payload;
+        },
+        resetRemoveFieldCommentThread: (state) => {
+            state.commentThreadToRemove = null;
         }
     }
 });
@@ -37,11 +44,14 @@ export const {
     updateFieldComment,
     resetUpdateFieldComment,
     removeFieldComment,
-    resetRemoveFieldComment
+    resetRemoveFieldComment,
+    removeFieldCommentThread,
+    resetRemoveFieldCommentThread
 } = fieldSlice.actions;
 
 export const selectFieldCommentToAdd = (state) => state.commenting.field.commentToAdd;
 export const selectFieldCommentToUpdate = (state) => state.commenting.field.commentToUpdate;
 export const selectFieldCommentToRemove = (state) => state.commenting.field.commentToRemove;
+export const selectFieldCommentThreadToRemove = (state) => state.commenting.field.commentThreadToRemove;
 
 export default fieldSlice.reducer;

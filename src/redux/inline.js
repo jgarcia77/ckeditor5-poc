@@ -4,6 +4,7 @@ const initialState = {
     commentToAdd: null,
     commentToUpdate: null,
     commentToRemove: null,
+    commentThreadToRemove: null,
 };
 
 const inlineSlice = createSlice({
@@ -27,6 +28,12 @@ const inlineSlice = createSlice({
         },
         resetRemoveInlineComment: (state) => {
             state.commentToRemove = null;
+        },
+        removeInlineCommentThread: (state, action) => {
+            state.commentThreadToRemove = action.payload;
+        },
+        resetRemoveInlineCommentThread: (state) => {
+            state.commentThreadToRemove = null;
         }
     }
 });
@@ -37,11 +44,14 @@ export const {
     updateInlineComment,
     resetUpdateInlineComment,
     removeInlineComment,
-    resetRemoveInlineComment
+    resetRemoveInlineComment,
+    removeInlineCommentThread,
+    resetRemoveInlineCommentThread
 } = inlineSlice.actions;
 
 export const selectInlineCommentToAdd = (state) => state.commenting.inline.commentToAdd;
 export const selectInlineCommentToUpdate = (state) => state.commenting.inline.commentToUpdate;
 export const selectInlineCommentToRemove = (state) => state.commenting.inline.commentToRemove;
+export const selectInlineCommentThreadToRemove = (state) => state.commenting.inline.commentThreadToRemove;
 
 export default inlineSlice.reducer;

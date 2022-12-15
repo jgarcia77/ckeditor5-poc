@@ -36,6 +36,7 @@ const ChronologicalComments = () => {
     }, [isLayoutReady]);
 
     const addNewCommentThread = (data) => {
+        debugger;
         const lastComment = commentsPanelRef.current.querySelector('.ck-sidebar-item:last-child');
         const target = lastComment ?? commentsPanelRef.current;
         const newCommentThread = {
