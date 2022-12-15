@@ -22,7 +22,12 @@ export class InlineCommentsContextPlugin extends CommentsContextPlugin {
             addComment: this.commentingService.addComment,
             updateComment: this.commentingService.updateComment,
             removeComment: this.commentingService.removeComment,
-            getCommentThread: this.commentingService.getCommentThread
+            getCommentThread: this.commentingService.getCommentThread,
+            removeCommentThread: (data) => {
+                console.log("Remove comment thread inline");
+                console.log(data);
+                return Promise.resolve();
+            }
         };
     }
 }
@@ -36,7 +41,12 @@ export class ChronCommentsContextPlugin extends CommentsContextPlugin {
         commentsRepository.adapter = {
             addComment: this.commentingService.addComment,
             updateComment: this.commentingService.updateComment,
-            removeComment: this.commentingService.removeComment
+            removeComment: this.commentingService.removeComment,
+            removeCommentThread: (data) => {
+                console.log("Remove comment thread chronological");
+                console.log(data);
+                return Promise.resolve();
+            }
         };
     }
 }
@@ -50,7 +60,12 @@ export class FieldCommentsContextPlugin extends CommentsContextPlugin {
         commentsRepository.adapter = {
             addComment: this.commentingService.addComment,
             updateComment: this.commentingService.updateComment,
-            removeComment: this.commentingService.removeComment
+            removeComment: this.commentingService.removeComment,
+            removeCommentThread: (data) => {
+                console.log("Remove comment thread field level");
+                console.log(data);
+                return Promise.resolve();
+            }
         };
     }
 }
