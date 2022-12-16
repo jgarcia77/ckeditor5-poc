@@ -4,9 +4,9 @@ import FieldComment from "./components/FieldComment";
 
 const editor1Data =
                 `<h2>
-                    <comment-start name="thread-1"></comment-start>
+                    <comment-start name="inline|editor-01|2c39a463-6a4f-4135-9c1a-561956f50ba9"></comment-start>
                     Bilingual Personality Disorder
-                    <comment-end name="thread-1"></comment-end>
+                    <comment-end name="inline|editor-01|2c39a463-6a4f-4135-9c1a-561956f50ba9"></comment-end>
                 </h2>
                 <p>
                     This may be the first time you hear about this made-up disorder but it actually isn’t so far from the truth.
@@ -15,7 +15,9 @@ const editor1Data =
                     behavior, emotions and hence <strong>their personality</strong>.
                 </p>
                 <p>
-                    <comment-start name="thread-2"></comment-start>This shouldn’t come as a surprise<comment-end name="thread-2"></comment-end>
+                    <comment-start name="inline|editor-01|746d6c19-934b-4c18-a58f-5e2fd1be9869"></comment-start>
+                    This shouldn’t come as a surprise
+                    <comment-end name="inline|editor-01|746d6c19-934b-4c18-a58f-5e2fd1be9869"></comment-end>
                     <a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">since we already know</a>
                     that different regions of the brain become more active depending on the activity.
                     The structure, information and especially <strong>the culture</strong> of languages varies substantially
@@ -25,9 +27,9 @@ const editor1Data =
 const editor2Data = `
     <h1>Happy Holidays</h1>
     <p>
-        <comment-start name="thread-3"></comment-start>
+        <comment-start name="inline|editor-02|3581bda1-e781-4a9c-80e9-d5b2cac6853e"></comment-start>
         Feel free to respond
-        <comment-end name="thread-3"></comment-end>
+        <comment-end name="inline|editor-02|3581bda1-e781-4a9c-80e9-d5b2cac6853e"></comment-end>
     </p>
 `;
 

@@ -8,7 +8,7 @@ export class CommentsContextPlugin extends ContextPlugin {
             users.addUser(this.users[user]);
         }
 
-        users.defineMe(this.currentUser);
+        users.defineMe(this.currentUser.id);
     }
 };
 
@@ -57,11 +57,7 @@ export class FieldCommentsContextPlugin extends CommentsContextPlugin {
             addComment: this.commentingService.addComment,
             updateComment: this.commentingService.updateComment,
             removeComment: this.commentingService.removeComment,
-            removeCommentThread: (data) => {
-                console.log("Remove comment thread field level");
-                console.log(data);
-                return Promise.resolve();
-            }
+            removeCommentThread: this.commentingService.removeCommentThread
         };
     }
 }

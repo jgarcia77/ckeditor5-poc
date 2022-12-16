@@ -11,8 +11,10 @@ import useCommentThreads from './useCommentThreads';
 import { addChronComment, updateChronComment, removeChronComment } from '../redux/chronological';
 import { addInlineComment, updateInlineComment, removeInlineComment, removeInlineCommentThread } from '../redux/inline';
 import { addFieldComment, updateFieldComment, removeFieldComment, removeFieldCommentThread } from '../redux/field';
+import { getCurrentUser } from '../common/getCurrentUser';
+import { channels } from '../common/channels-constant';
 
-const currentUser = 'u1';
+const currentUser = getCurrentUser();
 
 const useContextPlugins = () => {
     const dispatch = useDispatch();
@@ -34,8 +36,7 @@ const useContextPlugins = () => {
         if (threads.isFulfilled) {
             InlineCommentsContextPlugin.prototype.commentingService = {
                 getCommentThread: async (data) => {
-                    const thread = threads.data.find(item => item.threadId === data.threadId);
-                    return thread;
+                    return threads.lookup[data.threadId];
                 },
                 addComment: async (data) => {
                     dispatch(addChronComment(data));
@@ -88,9 +89,15 @@ const useContextPlugins = () => {
                     }));
                 },
                 removeCommentThread: async (data) => {
-                    const thread = threads.data.find(item => item.threadId === data.threadId);
-                    dispatch(removeInlineCommentThread(thread));
-                    dispatch(removeFieldCommentThread(data));
+                    if (data.threadId.startsWith(channels.INLINE)) {
+                        dispatch(removeInlineCommentThread({
+                            threadId: data.threadId
+                        }));
+                    } else {
+                        dispatch(removeFieldCommentThread({
+                            threadId: data.threadId
+                        }));
+                    }  
                 }
             };
 
@@ -103,6 +110,9 @@ const useContextPlugins = () => {
                 },
                 removeComment: async (data) => {
                     dispatch(removeChronComment(data));
+                },
+                removeCommentThread: async (data) => {
+                    
                 }
             };
         }

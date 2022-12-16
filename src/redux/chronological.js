@@ -4,6 +4,7 @@ const initialState = {
     commentToAdd: null,
     commentToUpdate: null,
     commentToRemove: null,
+    commentThreadToRemove: null
 };
 
 const chronologicalSlice = createSlice({
@@ -27,6 +28,12 @@ const chronologicalSlice = createSlice({
         },
         resetRemoveChronComment: (state) => {
             state.commentToRemove = null;
+        },
+        removeChronCommentThread: (state, action) => {
+            state.commentThreadToRemove = action.payload;
+        },
+        resetRemoveChronCommentThread: (state) => {
+            state.commentThreadToRemove = null;
         }
     }
 });
@@ -37,11 +44,14 @@ export const {
     updateChronComment,
     resetUpdateChronComment,
     removeChronComment,
-    resetRemoveChronComment
+    resetRemoveChronComment,
+    removeChronCommentThread,
+    resetRemoveChronCommentThread
 } = chronologicalSlice.actions;
 
 export const selectChronCommentToAdd = (state) => state.commenting.chronological.commentToAdd;
 export const selectChronCommentToUpdate = (state) => state.commenting.chronological.commentToUpdate;
 export const selectChronCommentToRemove = (state) => state.commenting.chronological.commentToRemove;
+export const selectChronCommentThreadToRemove = (state) => state.commenting.chronological.commentThreadToRemove;
 
 export default chronologicalSlice.reducer;

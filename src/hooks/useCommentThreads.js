@@ -6,6 +6,7 @@ const useCommentThreads = () => {
     const dispatch = useDispatch();
     const commentThreads = useSelector(commentThreadsSelectors.selectAll);
     const commentThreadsStates = useSelector(commentThreadsSelectors.selectStates);
+    const commentThreadsLookup = useSelector(commentThreadsSelectors.selectEntities);
 
     useEffect(() => {
         dispatch(readCommentThreads());
@@ -13,6 +14,7 @@ const useCommentThreads = () => {
 
     return {
         ...commentThreadsStates,
+        lookup: commentThreadsLookup,
         data: commentThreads
     };
 };

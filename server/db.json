@@ -15,18 +15,17 @@
     ],
     "commentThreads": [
         {
-            "threadId": "thread-1",
-            "channelId": "editor-01",
+            "threadId": "inline|editor-01|2c39a463-6a4f-4135-9c1a-561956f50ba9",
             "comments": [
                 {
-                    "commentId": "comment-1",
+                    "commentId": "fdbe95c7-fea0-4167-84c5-25bde99ccd22",
                     "authorId": "u1",
                     "content": "<p>Are we sure we want to use a made-up disorder name?</p>",
                     "createdAt": "2018-12-10T13:49:51.141Z",
                     "attributes": {}
                 },
                 {
-                    "commentId": "comment-2",
+                    "commentId": "25637e31-2de4-458b-9e2f-943ee2e3b9fa",
                     "authorId": "u1",
                     "content": "<p>Why not?</p>",
                     "createdAt": "2018-12-10T13:49:51.141Z",
@@ -35,11 +34,10 @@
             ]
         },
         {
-            "threadId": "thread-2",
-            "channelId": "editor-01",
+            "threadId": "inline|editor-01|746d6c19-934b-4c18-a58f-5e2fd1be9869",
             "comments": [
                 {
-                    "commentId": "comment-3",
+                    "commentId": "fd5c5b4b-22f5-4d1b-ba9e-a4e49c218e6b",
                     "authorId": "u2",
                     "content": "<p>Are we sure we want to use a made-up disorder name?</p>",
                     "createdAt": "2018-12-10T13:49:51.141Z",
@@ -48,18 +46,17 @@
             ]
         },
         {
-            "threadId": "thread-3",
-            "channelId": "editor-02",
+            "threadId": "inline|editor-02|3581bda1-e781-4a9c-80e9-d5b2cac6853e",
             "comments": [
                 {
-                    "commentId": "comment-4",
+                    "commentId": "ae3e3d1c-fa5c-4f79-a54a-62243eb864a8",
                     "authorId": "u2",
                     "content": "<p>Merry Christmas</p>",
                     "createdAt": "2021-12-25T13:49:51.141Z",
                     "attributes": {}
                 },
                 {
-                    "commentId": "comment-5",
+                    "commentId": "6510e4d6-160a-41dc-bebc-894438204757",
                     "authorId": "u1",
                     "content": "<p>Feliz Navidad</p>",
                     "createdAt": "2021-12-25T13:51:23.141Z",

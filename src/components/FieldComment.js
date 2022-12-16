@@ -15,10 +15,12 @@ import {
     selectFieldCommentThreadToRemove,
     resetRemoveFieldCommentThread
 } from '../redux/field';
+import { getCurrentUser } from '../common/getCurrentUser';
+import { channels } from '../common/channels-constant';
 
 FieldCommentsContext.builtinPlugins = [...FieldCommentsContext.builtinPlugins, FieldCommentsContextPlugin];
 
-const currentUser = 'u1';
+const currentUser = getCurrentUser();
 
 const FieldComment = ({ id, children }) => {
     const fieldRef = useRef();
@@ -30,6 +32,7 @@ const FieldComment = ({ id, children }) => {
     const commentToUpdate = useSelector(selectFieldCommentToUpdate);
     const commentToRemove = useSelector(selectFieldCommentToRemove);
     const commentThreadToRemove = useSelector(selectFieldCommentThreadToRemove);
+    const channelId = `${channels.FIELD}|${id}`;
 
     const dispatch = useDispatch();
 
@@ -47,10 +50,10 @@ const FieldComment = ({ id, children }) => {
         if (commentsRepository.hasCommentThread(commentToAdd.threadId)) {
             const commentThread = commentsRepository.getCommentThread(commentToAdd.threadId);
 
-            if (commentThread.channelId === 'fields-channel') {
+            if (commentThread.channelId === channelId) {
                 const comment = {
                     commentId: commentToAdd.commentId,
-                    authorId: currentUser,
+                    authorId: currentUser.id,
                     content: commentToAdd.content,
                     createdAt: new Date(),
                     attributes: commentToAdd.attributes,
@@ -76,7 +79,7 @@ const FieldComment = ({ id, children }) => {
 
         const commentThread = commentsRepository.getCommentThread(commentToUpdate.threadId);
 
-        if (commentThread.channelId === 'fields-channel') {
+        if (commentThread.channelId === channelId) {
             const comment = commentThread.getComment(commentToUpdate.commentId);
             comment.update({ ...commentToUpdate, isFromAdapter: true });
 
@@ -97,7 +100,7 @@ const FieldComment = ({ id, children }) => {
 
         const commentThread = commentsRepository.getCommentThread(commentToRemove.threadId);
 
-        if (commentThread.channelId === 'fields-channel') {
+        if (commentThread.channelId === channelId) {
             const comment = commentThread.getComment(commentToRemove.commentId);
             comment.remove({ ...commentToRemove, isFromAdapter: true });
 
@@ -142,7 +145,7 @@ const FieldComment = ({ id, children }) => {
                             preventScrollOutOfView: true
                         },
                         collaboration: {
-                            channelId: 'fields-channel'
+                            channelId
                         }
                     }}
                 context={FieldCommentsContext} 

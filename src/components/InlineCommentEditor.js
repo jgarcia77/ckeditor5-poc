@@ -13,8 +13,10 @@ import {
     selectInlineCommentThreadToRemove,
     resetRemoveInlineCommentThread
 } from '../redux/inline';
+import { getCurrentUser } from '../common/getCurrentUser';
+import { channels } from '../common/channels-constant';
 
-const currentUser = 'u1';
+const currentUser = getCurrentUser();
 
 const InlineCommentEditor = ({ id, initialData }) => {
     const dispatch = useDispatch();
@@ -25,10 +27,11 @@ const InlineCommentEditor = ({ id, initialData }) => {
     const commentToUpdate = useSelector(selectInlineCommentToUpdate);
     const commentToRemove = useSelector(selectInlineCommentToRemove);
     const commentThreadToRemove = useSelector(selectInlineCommentThreadToRemove);
+    const channelId = `${channels.INLINE}|${id}`;
 
     const handleOpenNewCommentThread = () => {
         editor.focus();
-        editor.execute('addCommentThread', { threadId: uuidv4() });
+        editor.execute('addCommentThread', { threadId: `${channelId}|${uuidv4()}` });
     }
 
     const handleSelectionChange = () => {
@@ -54,7 +57,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
             if (commentThread.channelId === id) {
                 const comment = {
                     commentId: commentToAdd.commentId,
-                    authorId: currentUser,
+                    authorId: currentUser.id,
                     content: commentToAdd.content,
                     createdAt: new Date(),
                     attributes: commentToAdd.attributes,
@@ -122,7 +125,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
 
         const commentThread = commentsRepository.getCommentThread(commentThreadToRemove.threadId);
 
-        if (commentThread.channelId === id) {
+        if (commentThread.channelId === channelId) {
             commentThread.remove({ isFromAdapter: true });
             dispatch(resetRemoveInlineCommentThread());
         }
@@ -140,10 +143,10 @@ const InlineCommentEditor = ({ id, initialData }) => {
                 editor={ClassicEditor} 
                 config={{
                     toolbar: {
-                        items: ['comment']
+                        items: []
                     },
                     collaboration: {
-                        channelId: id
+                        channelId
                     }
                 }}
                 onReady={(editor) => {

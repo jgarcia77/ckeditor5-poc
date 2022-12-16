@@ -10,7 +10,9 @@ import {
     selectChronCommentToUpdate,
     resetUpdateChronComment,
     selectChronCommentToRemove,
-    resetRemoveChronComment
+    resetRemoveChronComment,
+    selectChronCommentThreadToRemove,
+    resetRemoveChronCommentThread
 } from '../redux/chronological';
 import { commentThreadsSelectors } from '../redux/commentThreads';
 
@@ -27,6 +29,7 @@ const ChronologicalComments = () => {
     const commentToAdd = useSelector(selectChronCommentToAdd);
     const commentToUpdate = useSelector(selectChronCommentToUpdate);
     const commentToRemove = useSelector(selectChronCommentToRemove);
+    const commentThreadToRemove = useSelector(selectChronCommentThreadToRemove);
     const commentThreads = useSelector(commentThreadsSelectors.selectAll);
 
     useEffect(() => {
@@ -84,6 +87,11 @@ const ChronologicalComments = () => {
         comment.remove({ ...data, isFromAdapter: true });
     };
 
+    const removeCommentThread = (data) => {
+        const commentThread = commentsRepository.getCommentThread(data.threadId);
+        commentThread.remove();
+    }
+
     useEffect(() => {
         if (!commentToAdd) {
             return;
@@ -117,6 +125,16 @@ const ChronologicalComments = () => {
 
         dispatch(resetRemoveChronComment());
     }, [commentToRemove]);
+
+    useEffect(() => {
+        if (!commentThreadToRemove) {
+            return;
+        }
+
+        removeCommentThread(commentThreadToRemove);
+
+        dispatch(resetRemoveChronCommentThread());
+    }, [commentThreadToRemove]);
 
     return (
         <>
