@@ -51,42 +51,51 @@ const useContextPlugins = () => {
 
             ChronCommentsContextPlugin.prototype.commentingService = {
                 addComment: async (data) => {
-                    dispatch(addInlineComment({
-                        threadId: data.threadId,
-                        commentId: data.commentId,
-                        content: data.content,
-                        attributes: data.attributes
-                    }));
-                    dispatch(addFieldComment({
-                        threadId: data.threadId,
-                        commentId: data.commentId,
-                        content: data.content,
-                        attributes: data.attributes
-                    }));
+                    if (data.threadId.startsWith(channels.INLINE)) {
+                        dispatch(addInlineComment({
+                            threadId: data.threadId,
+                            commentId: data.commentId,
+                            content: data.content,
+                            attributes: data.attributes
+                        }));
+                    } else {
+                        dispatch(addFieldComment({
+                            threadId: data.threadId,
+                            commentId: data.commentId,
+                            content: data.content,
+                            attributes: data.attributes
+                        }));
+                    }
                 },
                 updateComment: async (data) => {
-                    dispatch(updateInlineComment({
-                        threadId: data.threadId,
-                        commentId: data.commentId,
-                        content: data.content,
-                        attributes: data.attributes
-                    }));
-                    dispatch(updateFieldComment({
-                        threadId: data.threadId,
-                        commentId: data.commentId,
-                        content: data.content,
-                        attributes: data.attributes
-                    }));
+                    if (data.threadId.startsWith(channels.INLINE)) {
+                        dispatch(updateInlineComment({
+                            threadId: data.threadId,
+                            commentId: data.commentId,
+                            content: data.content,
+                            attributes: data.attributes
+                        }));
+                    } else {
+                        dispatch(updateFieldComment({
+                            threadId: data.threadId,
+                            commentId: data.commentId,
+                            content: data.content,
+                            attributes: data.attributes
+                        }));
+                    }
                 },
                 removeComment: async (data) => {
-                    dispatch(removeInlineComment({
-                        threadId: data.threadId,
-                        commentId: data.commentId
-                    }));
-                    dispatch(removeFieldComment({
-                        threadId: data.threadId,
-                        commentId: data.commentId
-                    }));
+                    if (data.threadId.startsWith(channels.INLINE)) {
+                        dispatch(removeInlineComment({
+                            threadId: data.threadId,
+                            commentId: data.commentId
+                        }));
+                    } else {
+                        dispatch(removeFieldComment({
+                            threadId: data.threadId,
+                            commentId: data.commentId
+                        }));
+                    }
                 },
                 removeCommentThread: async (data) => {
                     if (data.threadId.startsWith(channels.INLINE)) {

@@ -54,7 +54,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
         if (commentsRepository.hasCommentThread(commentToAdd.threadId)) {
             const commentThread = commentsRepository.getCommentThread(commentToAdd.threadId);
 
-            if (commentThread.channelId === id) {
+            if (commentThread.channelId === channelId) {
                 const comment = {
                     commentId: commentToAdd.commentId,
                     authorId: currentUser.id,
@@ -84,7 +84,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
 
         const commentThread = commentsRepository.getCommentThread(commentToUpdate.threadId);
 
-        if (commentThread.channelId === id) {
+        if (commentThread.channelId === channelId) {
             const comment = commentThread.getComment(commentToUpdate.commentId);
             comment.update({ ...commentToUpdate, isFromAdapter: true });
 
@@ -106,7 +106,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
 
         const commentThread = commentsRepository.getCommentThread(commentToRemove.threadId);
 
-        if (commentThread.channelId === id) {
+        if (commentThread.channelId === channelId) {
             const comment = commentThread.getComment(commentToRemove.commentId);
             comment.remove({ ...commentToRemove, isFromAdapter: true });
 
