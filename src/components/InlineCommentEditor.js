@@ -120,8 +120,6 @@ const InlineCommentEditor = ({ id, initialData }) => {
             return;
         }
 
-        debugger;
-
         const commentThread = commentsRepository.getCommentThread(commentThreadToRemove.threadId);
 
         if (commentThread.channelId === id) {
@@ -168,6 +166,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
                     
                     console.log('allThreads', allThreads);
                     console.log('attachedThreads', attachedThreads);
+                    console.log('data', editor.getData());
                 }} />
         </>
     );

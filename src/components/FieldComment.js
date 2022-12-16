@@ -114,8 +114,6 @@ const FieldComment = ({ id, children }) => {
             return;
         }
 
-        debugger;
-
         const commentThread = commentsRepository.getCommentThread(commentThreadToRemove.threadId);
 
         if (commentThread.channelId === 'fields-channel') {

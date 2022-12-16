@@ -7,7 +7,7 @@ import {
     FieldCommentsContextPlugin
 } from '../plugins/CommentsContextPlugins';
 import useUsers from './useUsers';
-import useThreads from './useThreads';
+import useCommentThreads from './useCommentThreads';
 import { addChronComment, updateChronComment, removeChronComment } from '../redux/chronological';
 import { addInlineComment, updateInlineComment, removeInlineComment, removeInlineCommentThread } from '../redux/inline';
 import { addFieldComment, updateFieldComment, removeFieldComment, removeFieldCommentThread } from '../redux/field';
@@ -18,7 +18,7 @@ const useContextPlugins = () => {
     const dispatch = useDispatch();
 
     const users = useUsers();
-    const threads = useThreads();
+    const threads = useCommentThreads();
 
     useEffect(() => {
         CommentsContextPlugin.prototype.currentUser = currentUser;
@@ -88,7 +88,6 @@ const useContextPlugins = () => {
                     }));
                 },
                 removeCommentThread: async (data) => {
-                    debugger;
                     const thread = threads.data.find(item => item.threadId === data.threadId);
                     dispatch(removeInlineCommentThread(thread));
                     dispatch(removeFieldCommentThread(data));
@@ -97,7 +96,6 @@ const useContextPlugins = () => {
 
             FieldCommentsContextPlugin.prototype.commentingService = {
                 addComment: async (data) => {
-                    debugger;
                     dispatch(addChronComment(data));
                 },
                 updateComment: async (data) => {

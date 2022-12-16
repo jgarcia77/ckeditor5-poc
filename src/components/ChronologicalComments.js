@@ -12,7 +12,7 @@ import {
     selectChronCommentToRemove,
     resetRemoveChronComment
 } from '../redux/chronological';
-import { selectThreads } from '../redux/threads';
+import { commentThreadsSelectors } from '../redux/commentThreads';
 
 ChronCommentsContext.builtinPlugins = [...ChronCommentsContext.builtinPlugins, ChronCommentsContextPlugin];
 
@@ -27,7 +27,7 @@ const ChronologicalComments = () => {
     const commentToAdd = useSelector(selectChronCommentToAdd);
     const commentToUpdate = useSelector(selectChronCommentToUpdate);
     const commentToRemove = useSelector(selectChronCommentToRemove);
-    const threads = useSelector(selectThreads);
+    const commentThreads = useSelector(commentThreadsSelectors.selectAll);
 
     useEffect(() => {
         if (!isLayoutReady) {
@@ -36,7 +36,6 @@ const ChronologicalComments = () => {
     }, [isLayoutReady]);
 
     const addNewCommentThread = (data) => {
-        debugger;
         const lastComment = commentsPanelRef.current.querySelector('.ck-sidebar-item:last-child');
         const target = lastComment ?? commentsPanelRef.current;
         const newCommentThread = {
@@ -137,7 +136,7 @@ const ChronologicalComments = () => {
                     const lastComment = commentsPanelRef.current.querySelector('.ck-sidebar-item:last-child');
                     const target = lastComment ?? commentsPanelRef.current;
 
-                    for ( const commentThread of threads.data ) {
+                    for ( const commentThread of commentThreads ) {
                         commentsRepository.addCommentThread({ 
                             ...commentThread,
                             target,

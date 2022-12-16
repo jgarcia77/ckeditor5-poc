@@ -3,12 +3,12 @@ import chronological from './chronological';
 import inline from './inline';
 import field from './field';
 import users from './users';
-import threads from './threads';
+import commentThreads from './commentThreads';
 import clipBoards from './clipBoards';
 
 const commenting = combineReducers({
   users,
-  threads,
+  commentThreads,
   chronological,
   inline,
   field,
