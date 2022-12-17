@@ -119,7 +119,7 @@ const FieldComment = ({ id, children }) => {
 
         const commentThread = commentsRepository.getCommentThread(commentThreadToRemove.threadId);
 
-        if (commentThread.channelId === 'fields-channel') {
+        if (commentThread.channelId === channelId) {
             commentThread.remove({ isFromAdapter: true });
             dispatch(resetRemoveFieldCommentThread());
         }
@@ -128,8 +128,8 @@ const FieldComment = ({ id, children }) => {
 
     const handleOpenNewCommentThread = () => {
         commentsRepository.openNewCommentThread({
-            channelId: 'fields-channel',
-            threadId: uuidv4(),
+            channelId: channelId,
+            threadId: `${channelId}|${uuidv4()}`,
             target: fieldRef.current
         });
     }

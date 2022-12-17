@@ -28,6 +28,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
     const commentToRemove = useSelector(selectInlineCommentToRemove);
     const commentThreadToRemove = useSelector(selectInlineCommentThreadToRemove);
     const channelId = `${channels.INLINE}|${id}`;
+    const [data, setData] = useState();
 
     const handleOpenNewCommentThread = () => {
         editor.focus();
@@ -39,6 +40,26 @@ const InlineCommentEditor = ({ id, initialData }) => {
         const selection = document.getSelection();
         // console.log(selection);
     };
+
+    useEffect(() => {
+        if (!data) {
+            return;
+        };
+
+        const allThreads = commentsRepository.getCommentThreads( {
+            skipNotAttached: false,
+            skipEmpty: true,
+            toJSON: true
+        } );
+        const attachedThreads = commentsRepository.getCommentThreads( {
+            skipNotAttached: true,
+            skipEmpty: true,
+            toJSON: true
+        } );
+
+        console.log('allThreads', allThreads);
+        console.log('attachedThreads', attachedThreads);
+    }, [data]);
 
     useEffect(() => {
         document.addEventListener('selectionchange', handleSelectionChange);
@@ -155,21 +176,7 @@ const InlineCommentEditor = ({ id, initialData }) => {
                     setCommentsRepository(commentsRepository);
                 }}
                 onChange={(event, editor) => {
-                    const commentsRepository = editor.plugins.get( 'CommentsRepository' );
-                    const allThreads = commentsRepository.getCommentThreads( {
-                        skipNotAttached: false,
-                        skipEmpty: true,
-                        toJSON: true
-                    } );
-                    const attachedThreads = commentsRepository.getCommentThreads( {
-                        skipNotAttached: true,
-                        skipEmpty: true,
-                        toJSON: true
-                    } );
-                    
-                    console.log('allThreads', allThreads);
-                    console.log('attachedThreads', attachedThreads);
-                    console.log('data', editor.getData());
+                    setData(editor.getData());
                 }} />
         </>
     );
