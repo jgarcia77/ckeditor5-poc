@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ckeditor5-poc/static/css/main.f2367413.css",
+    "main.js": "/ckeditor5-poc/static/js/main.4c666491.js",
+    "index.html": "/ckeditor5-poc/index.html",
+    "main.f2367413.css.map": "/ckeditor5-poc/static/css/main.f2367413.css.map",
+    "main.4c666491.js.map": "/ckeditor5-poc/static/js/main.4c666491.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f2367413.css",
+    "static/js/main.4c666491.js"
+  ]
+}
